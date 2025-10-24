@@ -4,15 +4,12 @@
 
 ## Team Members
 
-- Asst. Prof. Dr. İlktan Ar
-- Berkay Mustafa Arıkan
-- Çağatay Batuker
-- Doruk Ege Aksu
-- Fatih Gölge
-- Ozan Kutlar
-- Selin Budak
-- Uğurkan Bekit
-- Volkan Erdoğan
+👥 Group 12 Members
+	•	Hüseyin Yiğit Şahin
+	•	Nermin Zehra Sipahioğlu
+	•	Burak Arslan
+	•	Mert Fahri Çakar
+
 
 ## Project Overview
 
