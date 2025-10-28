@@ -424,6 +424,19 @@ public class Group12 {
 
     // ===== University Submenu
     // =============================================================================================
+        /**
+     * Connect Four Game
+     * -----------------
+     * Allows users to play Connect Four in:
+     *  - Single-player (vs computer)
+     *  - Two-player mode
+     * 
+     * Features:
+     *  - Selectable board sizes (5x4, 6x5, or 7x6)
+     *  - Smart computer (blocks or wins strategically)
+     *  - Players can forfeit at any time by entering "Q"
+     */
+        // ===== UNIVERSITY MENU =====
     public static void University(Scanner input) {
         String choice;
         while (true) {
@@ -436,19 +449,289 @@ public class Group12 {
 
             switch (choice) {
                 case "A":
-                    System.out.println("Connect Four Game selected");
-                    ConnectFour();
+                    System.out.println("Launching Connect Four...");
+                    ConnectFour(input);
                     break;
                 case "B":
                     System.out.println("Returning to Main Menu...");
                     return;
                 default:
-                    System.out.println("Invalid choice, try again.");
+                    System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
-    public static void ConnectFour() {
+    public static void ConnectFour(Scanner input) {
+        System.out.println("\n===== CONNECT FOUR =====");
+        System.out.println("Select board size:");
+        System.out.println("[1] 5 x 4");
+        System.out.println("[2] 6 x 5");
+        System.out.println("[3] 7 x 6");
+        System.out.print("Enter your choice (1-3): ");
+        int boardChoice = getValidInt(input, 1, 3);
 
+        int rows = 4, cols = 5;
+        if (boardChoice == 2) { rows = 5; cols = 6; }
+        else if (boardChoice == 3) { rows = 6; cols = 7; }
+
+        System.out.println("\nSelect Game Mode:");
+        System.out.println("[1] Single Player (vs Computer)");
+        System.out.println("[2] Two Players");
+        System.out.print("Enter your choice (1-2): ");
+        int mode = getValidInt(input, 1, 2);
+
+        char[][] board = new char[rows][cols];
+        for (char[] row : board)
+            Arrays.fill(row, '.');
+
+        char currentPlayer = 'X';
+        boolean gameOver = false;
+
+        while (!gameOver) {
+            clearScreen();
+            displayBoard(board);
+
+            int col;
+
+            // === Player or Computer Move ===
+            if (mode == 1 && currentPlayer == 'O') {
+                // Computer's turn
+                System.out.println("\nComputer is thinking...");
+                pauseFor(1000);
+                col = getSmartMove(board, 'O', 'X');
+                System.out.println("Computer chooses column: " + (col + 1));
+                pauseFor(800);
+            } else {
+                // Human player's turn
+                System.out.println("Player " + currentPlayer + "'s turn. (Enter column number or 'Q' to forfeit)");
+                col = getPlayerMove(input, board);
+                if (col == -1) { // forfeit
+                    System.out.println("Player " + currentPlayer + " forfeited. Game Over!");
+                    break;
+                }
+            }
+
+            // Drop the disc in the selected column
+            int row = dropDisc(board, col, currentPlayer);
+            if (row == -1) {
+                System.out.println("Column is full! Try another one.");
+                pauseFor(1000);
+                continue;
+            }
+
+            // Check for win or draw
+            if (checkWin(board, row, col, currentPlayer)) {
+                clearScreen();
+                displayBoard(board);
+                System.out.println("Player " + currentPlayer + " WINS!");
+                gameOver = true;
+            } else if (isBoardFull(board)) {
+                clearScreen();
+                displayBoard(board);
+                System.out.println("It's a DRAW!");
+                gameOver = true;
+            } else {
+                // Switch player
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+            }
+
+            // Pause only after the game ends
+            if (gameOver) {
+                pauseForInput(input);
+            }
+        }
+
+        System.out.println("Returning to University Menu...");
     }
+
+/* ===== HELPER METHODS ===== */
+
+    /**
+     * Wait for the user to press Enter before continuing.
+     */
+    private static void pauseForInput(Scanner input) {
+        System.out.print("\nPress Enter to continue...");
+        input.nextLine();
+    }
+
+    /**
+     * Creates a short delay in milliseconds.
+     */
+    private static void pauseFor(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Validates that user input is an integer within a given range.
+     */
+    private static int getValidInt(Scanner input, int min, int max) {
+        int val;
+        while (true) {
+            if (input.hasNextInt()) {
+                val = input.nextInt();
+                input.nextLine(); // clear newline
+                if (val >= min && val <= max)
+                    return val;
+            } else {
+                input.next();
+            }
+            System.out.print("Invalid input, try again: ");
+        }
+        }
+
+    /**
+     * Displays the game board on the console.
+     */
+    private static void displayBoard(char[][] board) {
+        System.out.println();
+        for (char[] row : board) {
+            for (char cell : row) {
+                System.out.print(" " + cell + " ");
+            }
+            System.out.println();
+        }
+        for (int i = 0; i < board[0].length; i++) {
+            System.out.print(" " + (i + 1) + " ");
+        }
+        System.out.println("\n");
+    }
+
+    /**
+     * Drops a disc into the specified column.
+     * @return The row index where the disc landed, or -1 if the column is full.
+     */
+    private static int dropDisc(char[][] board, int col, char player) {
+        for (int row = board.length - 1; row >= 0; row--) {
+            if (board[row][col] == '.') {
+                board[row][col] = player;
+                return row;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Handles player input for choosing a column or forfeiting the game.
+     * @return Column index or -1 if player forfeits.
+     */
+    private static int getPlayerMove(Scanner input, char[][] board) {
+        while (true) {
+            System.out.print("Choose a column (1-" + board[0].length + " or 'Q' to quit): ");
+            String entry = input.nextLine().trim().toUpperCase();
+            if (entry.equals("Q")) {
+                return -1; // forfeit
+            }
+            try {
+                int col = Integer.parseInt(entry) - 1;
+                if (col >= 0 && col < board[0].length)
+                    return col;
+            } catch (NumberFormatException e) {
+                // Ignore invalid entry
+            }
+            System.out.println("Invalid input. Try again.");
+        }
+    }
+
+    /**
+     * Smart AI move selection.
+     *  1. Win in the next move if possible
+     *  2. Block the opponent’s winning move
+     *  3. Otherwise, choose a random valid column
+     */
+    private static int getSmartMove(char[][] board, char aiPlayer, char humanPlayer) {
+        List<Integer> validCols = new ArrayList<>();
+        for (int c = 0; c < board[0].length; c++) {
+            if (board[0][c] == '.')
+                validCols.add(c);
+        }
+
+        // Try to win
+        for (int col : validCols) {
+            int row = getDropRow(board, col);
+            if (row != -1) {
+                board[row][col] = aiPlayer;
+                boolean win = checkWin(board, row, col, aiPlayer);
+                board[row][col] = '.';
+                if (win)
+                    return col;
+            }
+        }
+
+        // Try to block opponent
+        for (int col : validCols) {
+            int row = getDropRow(board, col);
+            if (row != -1) {
+                board[row][col] = humanPlayer;
+                boolean win = checkWin(board, row, col, humanPlayer);
+                board[row][col] = '.';
+                if (win)
+                    return col;
+            }
+        }
+
+        // Otherwise, choose a random valid column
+        return validCols.get((int) (Math.random() * validCols.size()));
+    }
+
+    /**
+     * Find the row index where a disc would land in a column.
+     */
+    private static int getDropRow(char[][] board, int col) {
+        for (int row = board.length - 1; row >= 0; row--) {
+            if (board[row][col] == '.')
+                return row;
+        }
+        return -1;
+    }
+
+    /**
+     * Check if the board is completely full.
+     */
+    private static boolean isBoardFull(char[][] board) {
+        for (int c = 0; c < board[0].length; c++) {
+            if (board[0][c] == '.')
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if a player has connected four in any direction.
+     */
+    private static boolean checkWin(char[][] board, int row, int col, char player) {
+        int[][] directions = {
+            {1, 0},  // vertical
+            {0, 1},  // horizontal
+            {1, 1},  // diagonal down-right
+            {1, -1}  // diagonal down-left
+        };
+
+        for (int[] dir : directions) {
+            int count = 1;
+            count += countDirection(board, row, col, dir[0], dir[1], player);
+            count += countDirection(board, row, col, -dir[0], -dir[1], player);
+            if (count >= 4)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Count consecutive discs of the same player in one direction.
+     */
+    private static int countDirection(char[][] board, int row, int col, int dr, int dc, char player) {
+        int count = 0;
+        int r = row + dr, c = col + dc;
+        while (r >= 0 && r < board.length && c >= 0 && c < board[0].length && board[r][c] == player) {
+            count++;
+            r += dr;
+            c += dc;
+        }
+        return count;
+    }
+
 }
