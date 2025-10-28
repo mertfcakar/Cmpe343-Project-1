@@ -399,11 +399,11 @@ public class Group12 {
             switch (choice) {
                 case "A":
                     System.out.println("Statistical Information selected");
-                    ArrayStatistics();
+                    ArrayStatistics(input);
                     break;
                 case "B":
                     System.out.println("Distance between Two Arrays selected");
-                    ArrayDistance();
+                    ArrayDistance(input);
                     break;
                 case "C":
                     System.out.println("Returning to Main Menu...");
@@ -414,13 +414,260 @@ public class Group12 {
         }
     }
 
-    public static void ArrayStatistics() {
+    public static void ArrayStatistics(Scanner input) {
+        while (true) {
+            System.out.println("--- Statistical Information about an Array ---");
 
+            int n;
+            while (true) {
+                System.out.print("Enter array size (positive integer): ");
+                String s = input.nextLine().trim();
+                try {
+                    n = Integer.parseInt(s);
+                    if (n <= 0) {
+                        System.out.println("Array size must be positive. Try again.");
+                        continue;
+                    }
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid integer (e.g., 5).");
+                }
+            }
+
+            double[] arr = new double[n];
+            System.out.println("Enter " + n + " elements:");
+            for (int i = 0; i < n; i++) {
+                while (true) {
+                    System.out.print("Element " + (i + 1) + ": ");
+                    String val = input.nextLine().trim();
+                    try {
+                        arr[i] = Double.parseDouble(val);
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid number.");
+                    }
+                }
+            }
+
+            System.out.println("Statistical Informations about your input array.");
+            System.out.println("-------");
+            System.out.println("Arithmetic Mean : " + arithmeticMean(arr));
+            System.out.println("Median          : " + median(arr));
+            System.out.println("Geometric Mean  : " + geometricMean(arr));
+            System.out.println("Harmonic Mean   : " + harmonicMean(arr));
+
+            while (true) {
+                System.out.println("[A] Repeat with another array");
+                System.out.println("[B] Return to High School Menu");
+                System.out.print("Enter your choice (A-B): ");
+
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
+            }
+        }
     }
 
-    public static void ArrayDistance() {
+    
 
+    public static void ArrayDistance(Scanner input) {
+        System.out.println("--- Array Distance ---");
+        
+
+        int n;
+        while (true) {
+            System.out.print("Enter your first array's size: ");
+            String s = input.nextLine().trim();
+            try {
+                n = Integer.parseInt(s);
+                if (n <= 0) {
+                    System.out.println("Array size must be positive. Try again.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid integer.");
+            }
+        }
+
+        double[] arr1 = new double[n];
+        System.out.println("Enter " + n + " elements for the first array (between 0 and 9):");
+
+        for (int i = 0; i < n; i++) {
+            while (true) {
+                System.out.print("Element " + (i + 1) + ": ");
+                String val = input.nextLine().trim();
+
+                try {
+                    double num = Double.parseDouble(val);
+
+                    if (num < 0 || num > 9) {
+                        System.out.println("Value must be between 0 and 9. Please try again.");
+                        continue;
+                    }
+
+                    arr1[i] = num;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid number.");
+                }
+            }
+        }
+
+       
+        int k;
+        while (true) {
+            System.out.print("Enter your second array's size: ");
+            String s = input.nextLine().trim();
+            try {
+                k = Integer.parseInt(s);
+                if (k <= 0) {
+                    System.out.println("Array size must be positive. Try again.");
+                    continue;
+                }
+                if (k != n) {
+                    System.out.println("Both arrays must have the same size for distance calculations.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid integer.");
+            }
+        }
+
+        double[] arr2 = new double[n];
+        System.out.println("Enter " + n + " elements for the second array (between 0 and 9):");
+
+        for (int i = 0; i < n; i++) {
+            while (true) {
+                System.out.print("Element " + (i + 1) + ": ");
+                String val = input.nextLine().trim();
+
+                try {
+                    double num = Double.parseDouble(val);
+
+                    if (num < 0 || num > 9) {
+                        System.out.println("Value must be between 0 and 9. Please try again.");
+                        continue;
+                    }
+
+                    arr2[i] = num;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid number (e.g., 3).");
+                }
+            }
+        }
+
+        System.out.println("Distance Informations about your input array.");
+        System.out.println("-------");
+        System.out.println("Manhattan Distance: " + manhattanDistance(arr1, arr2));
+        System.out.println("Euclidean Distance: " + euclideanDistance(arr1, arr2));
+        System.out.println("Cosine Similarity: " + cosineSimilarity(arr1, arr2));
+        
+        while (true) {
+                System.out.println("[A] Repeat with another array");
+                System.out.println("[B] Return to High School Menu");
+                System.out.print("Enter your choice (A-B): ");
+
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
+            }
     }
+
+    public static double arithmeticMean(double[] a) {
+        double sum = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            sum = sum + a[i];
+        }
+        return sum / a.length;
+    }
+
+    public static double median(double[] a) {
+        double[] copy = Arrays.copyOf(a, a.length);
+        Arrays.sort(copy);
+        int n = copy.length;
+        if (n % 2 == 1) {
+            return copy[n / 2];
+        } else {
+            return (copy[n / 2 - 1] + copy[n / 2]) / 2.0;
+        }
+    }
+
+    public static double geometricMean(double[] a) {
+        double logSum = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] <= 0) {
+                System.out.println("Geometric mean undefined for non-positive values. Returning NaN.");
+                return Double.NaN;
+            }
+            logSum = logSum + Math.log(a[i]);
+        }
+        return Math.exp(logSum / a.length);
+    }
+
+    public static double harmonicMean(double[] a) {
+        double sumRec = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == 0.0) {
+                System.out.println("Harmonic mean undefined when any element is zero.");
+                return Double.NaN;
+            }
+            sumRec = sumRec + (1.0 / a[i]);
+        }
+        return a.length / sumRec;
+    }
+
+    
+    public static double manhattanDistance(double[] arr1, double[] arr2) {
+        double manhattan = 0.0;
+        for (int i = 0; i < arr1.length; i++) {
+            manhattan += Math.abs(arr1[i] - arr2[i]);
+        }
+        return manhattan;
+    }
+
+    public static double euclideanDistance(double[] arr1, double[] arr2) {
+        double euclidean = 0.0;
+        for (int i = 0; i < arr1.length; i++) {
+            euclidean += Math.pow(arr1[i] - arr2[i], 2);
+        }
+        return Math.sqrt(euclidean);
+    }
+
+    public static double cosineSimilarity(double[] arr1, double[] arr2) {
+        double dotProduct = 0.0;
+        double sum1 = 0.0;
+        double sum2 = 0.0;
+
+        for (int i = 0; i < arr1.length; i++) {
+            dotProduct += arr1[i] * arr2[i];
+            sum1 += Math.pow(arr1[i], 2);
+            sum2 += Math.pow(arr2[i], 2);
+        }
+
+        if (sum1 == 0 || sum2 == 0) {
+            System.out.println("Cosine similarity is undefined because one or both arrays are zero vectors.");
+            return 0.0;
+        }
+
+        return dotProduct / (Math.sqrt(sum1) * Math.sqrt(sum2));
+    }
+
+
+
+
 
     // ===== University Submenu
     // =============================================================================================
