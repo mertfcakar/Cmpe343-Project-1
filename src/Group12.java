@@ -3,10 +3,42 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * CMPE 343 Course Project - Educational Menu System
+ * 
+ * This program provides an interactive educational platform with various
+ * computational challenges organized by difficulty level (Primary School,
+ * Secondary School, High School, and University).
+ * 
+ * Features include:
+ * - Age and zodiac sign detection
+ * - String manipulation (word reversal)
+ * - Prime number generation using multiple algorithms
+ * - Mathematical expression evaluation
+ * - Statistical array analysis
+ * - Distance calculations between arrays
+ * - Connect Four game with AI
+ * 
+ * @author Mert Fahri Çakar
+ * @author Burak Arslan
+ * @author Nermin Zehra Sipahioğlu
+ * @author Hüseyin Yiğit Şahin
+ * @version 1.0
+ * @since 2025
+ */
 public class Group12 {
+    
+    /**
+     * Main entry point of the application.
+     * Displays welcome message and main menu, then processes user selections
+     * in a continuous loop until termination is requested.
+     * 
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String choice;
+        displayWelcomeMessage();
 
         while (true) {
             System.out.println("\n===== MAIN MENU =====\n");
@@ -22,23 +54,23 @@ public class Group12 {
             switch (choice) {
                 case "A":
                     System.out.println("You chose option A");
-                    PrimarySchool(input);
                     clearScreen();
+                    PrimarySchool(input);
                     break;
                 case "B":
                     System.out.println("You chose option B");
-                    SecondarySchool(input);
                     clearScreen();
+                    SecondarySchool(input);
                     break;
                 case "C":
                     System.out.println("You chose option C");
-                    HighSchool(input);
                     clearScreen();
+                    HighSchool(input);
                     break;
                 case "D":
                     System.out.println("You chose option D");
-                    University(input);
                     clearScreen();
+                    University(input);
                     break;
                 case "E":
                     System.out.println("You chose option E. Session Terminated");
@@ -49,14 +81,49 @@ public class Group12 {
             }
         }
     }
+    
+    /**
+     * Displays a styled welcome message with ASCII art and project information.
+     * Uses ANSI color codes for enhanced visual presentation.
+     */
+    public static void displayWelcomeMessage() {
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_PURPLE = "\u001B[35m";
+        String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_CYAN = "\u001B[36m";
+        System.out.println(ANSI_PURPLE + "========================================================================" + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + "   ____ __  __ ____  _____ _____ _  _  _____ " + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + " / ___|  \\/  |  _ \\| ____|___ /| || ||___ / " + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + "| |   | |\\/| | |_) |  _|   |_ \\| || |_ |_ \\ " + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + "| |___| |  | |  __/| |___ ___) |__   _|__) |" + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + " \\____|_|  |_|_|   |_____|____/   |_||____/ " + ANSI_RESET);
+        System.out.println();
+        System.out.println(ANSI_YELLOW + "            Welcome to the CMPE 343 Course Project!             " + ANSI_RESET);
+        System.out.println(ANSI_PURPLE + "========================================================================" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "      Project by: MERT FAHRİ ÇAKAR, BURAK ARSLAN, NERMİN ZEHRA SİPAHİOĞLU,HÜSEYİN YİĞİT ŞAHİN" + ANSI_RESET);
+        System.out.println();
+    }
 
+    /**
+     * Clears the console screen using ANSI escape sequences.
+     * Works on most Unix-like terminals and some Windows terminals.
+     */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    // ===== Primary School Submenu
-    // ==================================================================================
+    // ===== PRIMARY SCHOOL SECTION =====
+    
+    /**
+     * Displays the Primary School submenu and handles user selections.
+     * Available options:
+     * - Age and Zodiac Sign Detection
+     * - Reverse the Words
+     * - Return to Main Menu
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void PrimarySchool(Scanner input) {
         String choice;
         while (true) {
@@ -70,14 +137,17 @@ public class Group12 {
 
             switch (choice) {
                 case "A":
+                    clearScreen();
                     System.out.println("Age and Zodiac Sign Detection selected");
                     AgeAndZodiac();
                     break;
                 case "B":
+                    clearScreen();
                     System.out.println("Reverse the Words selected");
                     ReverseWords();
                     break;
                 case "C":
+                    clearScreen();
                     System.out.println("Returning to Main Menu...");
                     return;
                 default:
@@ -86,16 +156,228 @@ public class Group12 {
         }
     }
 
+    /**
+     * Calculates a person's age and determines their zodiac sign based on birth date.
+     * Validates user input to ensure proper date format and logical values.
+     * Current date is set to October 31, 2025 for calculations.
+     * 
+     * Features:
+     * - Precise age calculation (years, months, days)
+     * - Leap year handling
+     * - Date validation
+     * - Zodiac sign determination
+     */
     public static void AgeAndZodiac() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
 
+        int currentYear = 2025;
+        int currentMonth = 10;
+        int currentDay = 31;
+
+        int birthYear, birthMonth, birthDay;
+
+        while (true) {
+            try {
+                System.out.print("Enter your birth year: ");
+                birthYear = sc.nextInt();
+                System.out.print("Enter your birth month (1-12): ");
+                birthMonth = sc.nextInt();
+                System.out.print("Enter your birth day (1-31): ");
+                birthDay = sc.nextInt();
+                sc.nextLine();
+
+                if (!isValidDate(birthYear, birthMonth, birthDay)) {
+                    System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
+                    continue;
+                }
+
+                if (birthYear > currentYear ||
+                        (birthYear == currentYear && birthMonth > currentMonth) ||
+                        (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
+                    System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
+                    continue;
+                }
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
+                sc.nextLine();
+            }
+        }
+
+        int ageYears = currentYear - birthYear;
+        int ageMonths = currentMonth - birthMonth;
+        int ageDays = currentDay - birthDay;
+
+        if (ageDays < 0) {
+            ageMonths--;
+            int daysInPrevMonth;
+            int prevMonth = currentMonth - 1;
+            if (prevMonth == 0)
+                prevMonth = 12;
+
+            if (prevMonth == 2) {
+                daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
+            } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
+                daysInPrevMonth = 30;
+            } else {
+                daysInPrevMonth = 31;
+            }
+            ageDays += daysInPrevMonth;
+        }
+
+        if (ageMonths < 0) {
+            ageMonths += 12;
+            ageYears--;
+        }
+
+        String zodiac = "";
+        switch (birthMonth) {
+            case 1:
+                zodiac = (birthDay >= 20) ? "Aquarius" : "Capricorn";
+                break;
+            case 2:
+                zodiac = (birthDay >= 19) ? "Pisces" : "Aquarius";
+                break;
+            case 3:
+                zodiac = (birthDay >= 21) ? "Aries" : "Pisces";
+                break;
+            case 4:
+                zodiac = (birthDay >= 20) ? "Taurus" : "Aries";
+                break;
+            case 5:
+                zodiac = (birthDay >= 21) ? "Gemini" : "Taurus";
+                break;
+            case 6:
+                zodiac = (birthDay >= 21) ? "Cancer" : "Gemini";
+                break;
+            case 7:
+                zodiac = (birthDay >= 23) ? "Leo" : "Cancer";
+                break;
+            case 8:
+                zodiac = (birthDay >= 23) ? "Virgo" : "Leo";
+                break;
+            case 9:
+                zodiac = (birthDay >= 23) ? "Libra" : "Virgo";
+                break;
+            case 10:
+                zodiac = (birthDay >= 23) ? "Scorpio" : "Libra";
+                break;
+            case 11:
+                zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";
+                break;
+            case 12:
+                zodiac = (birthDay >= 22) ? "Capricorn" : "Sagittarius";
+                break;
+        }
+
+        System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
+        System.out.println("Your zodiac sign is: " + zodiac);
     }
 
+    /**
+     * Determines if a given year is a leap year.
+     * A leap year is divisible by 4, but not by 100, unless also divisible by 400.
+     * 
+     * @param year the year to check
+     * @return true if the year is a leap year, false otherwise
+     */
+    private static boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    /**
+     * Validates a date by checking year, month, and day constraints.
+     * Handles leap years and different month lengths.
+     * 
+     * @param year the year component
+     * @param month the month component (1-12)
+     * @param day the day component (1-31)
+     * @return true if the date is valid, false otherwise
+     */
+    private static boolean isValidDate(int year, int month, int day) {
+        if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31) {
+            return false;
+        }
+        if (month == 2) {
+            if (isLeapYear(year)) {
+                return day <= 29;
+            } else {
+                return day <= 28;
+            }
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            return day <= 30;
+        }
+        return true;
+    }
+
+    /**
+     * Prompts user for a sentence and reverses each word while preserving
+     * non-letter characters in their original positions.
+     * Uses recursive algorithm for word reversal.
+     * 
+     * Example: "Hello, World!" becomes "olleH, dlroW!"
+     */
     public static void ReverseWords() {
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n=== REVERSE THE WORDS (RECURSIVE) ===");
+        System.out.print("Enter a sentence: ");
+        String text = sc.nextLine();
+        String result = reversePreserveNonLetters(text);
+        System.out.println("Reversed sentence: " + result);
     }
 
-    // ===== Secondary School Submenu
-    // ==================================================================================
+    /**
+     * Reverses each word in the input string while preserving positions of
+     * non-letter characters.
+     * 
+     * @param input the string to process
+     * @return string with each word reversed, non-letters preserved
+     */
+    private static String reversePreserveNonLetters(String input) {
+        StringBuilder out = new StringBuilder();
+        int i = 0;
+        while (i < input.length()) {
+            char c = input.charAt(i);
+            if (Character.isLetter(c)) {
+                int j = i;
+                while (j < input.length() && Character.isLetter(input.charAt(j)))
+                    j++;
+                String word = input.substring(i, j);
+                out.append(reverseRec(word));
+                i = j;
+            } else {
+                out.append(c);
+                i++;
+            }
+        }
+        return out.toString();
+    }
+
+    /**
+     * Recursively reverses a string.
+     * Base case: strings of length 0 or 1 are returned as-is.
+     * 
+     * @param s the string to reverse
+     * @return the reversed string
+     */
+    private static String reverseRec(String s) {
+        if (s.length() <= 1)
+            return s;
+        return reverseRec(s.substring(1)) + s.charAt(0);
+    }
+
+    // ===== SECONDARY SCHOOL SECTION =====
+    
+    /**
+     * Displays the Secondary School submenu and handles user selections.
+     * Available options:
+     * - Prime Numbers (using three different sieves)
+     * - Step-by-Step Expression Evaluation
+     * - Return to Main Menu
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void SecondarySchool(Scanner input) {
         String choice;
         while (true) {
@@ -109,18 +391,17 @@ public class Group12 {
 
             switch (choice) {
                 case "A":
+                    clearScreen();
                     System.out.println("Prime Numbers selected");
                     PrimeNumbers(input);
-                    clearScreen();
                     break;
                 case "B":
                     System.out.println("Expression Evaluation selected");
                     ExpressionEvaluation(input);
-                    clearScreen();
                     break;
                 case "C":
-                    System.out.println("Returning to Main Menu...");
                     clearScreen();
+                    System.out.println("Returning to Main Menu...");
                     return;
                 default:
                     System.out.println("Invalid choice, try again.");
@@ -128,8 +409,16 @@ public class Group12 {
         }
     }
 
-    // ===== Prime Numbers
-    // ======================================================================================
+    /**
+     * Generates prime numbers up to a given limit using three different algorithms:
+     * - Sieve of Eratosthenes
+     * - Sieve of Sundaram
+     * - Sieve of Atkin
+     * 
+     * Compares execution time and displays first 3 and last 2 primes for each method.
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void PrimeNumbers(Scanner input) {
         int n;
 
@@ -169,6 +458,12 @@ public class Group12 {
         input.nextLine();
     }
 
+    /**
+     * Displays the first 3 and last 2 prime numbers from a list.
+     * If fewer than 5 primes exist, displays all available primes.
+     * 
+     * @param primes list of prime numbers to display
+     */
     private static void displayPrimes(List<Integer> primes) {
         if (primes.size() >= 5) {
             System.out.println("First 3 primes: " + primes.get(0) + ", " + primes.get(1) + ", " + primes.get(2));
@@ -181,6 +476,13 @@ public class Group12 {
         }
     }
 
+    /**
+     * Implements the Sieve of Eratosthenes algorithm for finding prime numbers.
+     * Time complexity: O(n log log n)
+     * 
+     * @param n the upper limit (inclusive) for prime number generation
+     * @return list of all prime numbers up to n
+     */
     private static List<Integer> sieveOfEratosthenes(int n) {
         boolean[] prime = new boolean[n + 1];
         Arrays.fill(prime, true);
@@ -198,6 +500,13 @@ public class Group12 {
         return primes;
     }
 
+    /**
+     * Implements the Sieve of Sundaram algorithm for finding prime numbers.
+     * Generates odd primes efficiently by marking composites in a reduced range.
+     * 
+     * @param n the upper limit (inclusive) for prime number generation
+     * @return list of all prime numbers up to n
+     */
     private static List<Integer> sieveOfSundaram(int n) {
         int newN = (n - 1) / 2;
         boolean[] marked = new boolean[newN + 1];
@@ -219,6 +528,14 @@ public class Group12 {
         return primes;
     }
 
+    /**
+     * Implements the Sieve of Atkin algorithm for finding prime numbers.
+     * More complex but theoretically faster for large ranges.
+     * Uses quadratic forms to identify potential primes.
+     * 
+     * @param n the upper limit (inclusive) for prime number generation
+     * @return list of all prime numbers up to n
+     */
     private static List<Integer> sieveOfAtkin(int n) {
         boolean[] sieve = new boolean[n + 1];
         List<Integer> primes = new ArrayList<>();
@@ -252,8 +569,13 @@ public class Group12 {
         return primes;
     }
 
-    // ===== Step-by-Step Expression
-    // Evaluation=====================================================================================
+    /**
+     * Evaluates a mathematical expression step-by-step, showing each calculation.
+     * Supports basic arithmetic operations: +, -, *, x (multiplication), : (division)
+     * Handles parentheses and follows proper order of operations.
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void ExpressionEvaluation(Scanner input) {
         String expression;
         while (true) {
@@ -269,6 +591,13 @@ public class Group12 {
         }
     }
 
+    /**
+     * Validates a mathematical expression for correct syntax and characters.
+     * Checks for balanced parentheses and valid operators.
+     * 
+     * @param expression the expression to validate
+     * @return true if expression is valid, false otherwise
+     */
     private static boolean isValidExpression(String expression) {
         for (char c : expression.toCharArray()) {
             if (!Character.isDigit(c) && c != '+' && c != '-' && c != '*' && c != 'x' &&
@@ -290,6 +619,12 @@ public class Group12 {
         return balance == 0;
     }
 
+    /**
+     * Recursively evaluates an expression and prints each step of the calculation.
+     * Handles parentheses first, then follows order of operations.
+     * 
+     * @param expression the expression to evaluate
+     */
     private static void evaluateAndPrintStep(String expression) {
         expression = expression.replace("+-", "-").replace("--", "+");
 
@@ -316,6 +651,13 @@ public class Group12 {
         evaluateAndPrintStep(nextExpression);
     }
 
+    /**
+     * Performs a single arithmetic calculation within an expression.
+     * Prioritizes multiplication and division over addition and subtraction.
+     * 
+     * @param expression the expression to process
+     * @return the expression with one operation calculated
+     */
     private static String performOneCalculation(String expression) {
         int opIndex = -1;
         for (int i = 0; i < expression.length(); i++) {
@@ -383,8 +725,17 @@ public class Group12 {
         return expression;
     }
 
-    // ================== High School Submenu
-    // =======================================================================
+    // ===== HIGH SCHOOL SECTION =====
+    
+    /**
+     * Displays the High School submenu and handles user selections.
+     * Available options:
+     * - Statistical Information about an Array
+     * - Distance between Two Arrays
+     * - Return to Main Menu
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void HighSchool(Scanner input) {
         String choice;
         while (true) {
@@ -398,14 +749,17 @@ public class Group12 {
 
             switch (choice) {
                 case "A":
+                    clearScreen();
                     System.out.println("Statistical Information selected");
                     ArrayStatistics(input);
                     break;
                 case "B":
+                    clearScreen();
                     System.out.println("Distance between Two Arrays selected");
                     ArrayDistance(input);
                     break;
                 case "C":
+                    clearScreen();
                     System.out.println("Returning to Main Menu...");
                     return;
                 default:
@@ -414,6 +768,17 @@ public class Group12 {
         }
     }
 
+    /**
+     * Prompts user for an array and calculates various statistical measures:
+     * - Arithmetic Mean
+     * - Median
+     * - Geometric Mean
+     * - Harmonic Mean
+     * 
+     * Allows user to repeat with different arrays or return to menu.
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void ArrayStatistics(Scanner input) {
         while (true) {
             System.out.println("--- Statistical Information about an Array ---");
@@ -473,11 +838,18 @@ public class Group12 {
         }
     }
 
-    
-
+    /**
+     * Calculates distances and similarity between two arrays:
+     * - Manhattan Distance (L1 norm)
+     * - Euclidean Distance (L2 norm)
+     * - Cosine Similarity
+     * 
+     * Arrays must be the same size and contain values between 0 and 9.
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void ArrayDistance(Scanner input) {
         System.out.println("--- Array Distance ---");
-        
 
         int n;
         while (true) {
@@ -519,7 +891,6 @@ public class Group12 {
             }
         }
 
-       
         int k;
         while (true) {
             System.out.print("Enter your second array's size: ");
@@ -569,23 +940,30 @@ public class Group12 {
         System.out.println("Manhattan Distance: " + manhattanDistance(arr1, arr2));
         System.out.println("Euclidean Distance: " + euclideanDistance(arr1, arr2));
         System.out.println("Cosine Similarity: " + cosineSimilarity(arr1, arr2));
-        
-        while (true) {
-                System.out.println("[A] Repeat with another array");
-                System.out.println("[B] Return to High School Menu");
-                System.out.print("Enter your choice (A-B): ");
 
-                String next = input.nextLine().trim().toUpperCase();
-                if (next.equals("A")) {
-                    break;
-                } else if (next.equals("B")) {
-                    return;
-                } else {
-                    System.out.println("Invalid choice, please enter A or B.");
-                }
+        while (true) {
+            System.out.println("[A] Repeat with another array");
+            System.out.println("[B] Return to High School Menu");
+            System.out.print("Enter your choice (A-B): ");
+
+            String next = input.nextLine().trim().toUpperCase();
+            if (next.equals("A")) {
+                break;
+            } else if (next.equals("B")) {
+                return;
+            } else {
+                System.out.println("Invalid choice, please enter A or B.");
             }
+        }
     }
 
+    /**
+     * Calculates the arithmetic mean (average) of an array.
+     * Formula: sum of all elements divided by array length
+     * 
+     * @param a the array of numbers
+     * @return the arithmetic mean
+     */
     public static double arithmeticMean(double[] a) {
         double sum = 0.0;
         for (int i = 0; i < a.length; i++) {
@@ -594,6 +972,13 @@ public class Group12 {
         return sum / a.length;
     }
 
+    /**
+     * Calculates the median (middle value) of an array.
+     * For even-length arrays, returns average of two middle values.
+     * 
+     * @param a the array of numbers
+     * @return the median value
+     */
     public static double median(double[] a) {
         double[] copy = Arrays.copyOf(a, a.length);
         Arrays.sort(copy);
@@ -605,6 +990,14 @@ public class Group12 {
         }
     }
 
+    /**
+     * Calculates the geometric mean of an array.
+     * Formula: nth root of the product of n numbers
+     * Returns NaN if any element is non-positive.
+     * 
+     * @param a the array of numbers
+     * @return the geometric mean, or NaN if undefined
+     */
     public static double geometricMean(double[] a) {
         double logSum = 0.0;
         for (int i = 0; i < a.length; i++) {
@@ -617,6 +1010,14 @@ public class Group12 {
         return Math.exp(logSum / a.length);
     }
 
+    /**
+     * Calculates the harmonic mean of an array.
+     * Formula: n divided by sum of reciprocals
+     * Returns NaN if any element is zero.
+     * 
+     * @param a the array of numbers
+     * @return the harmonic mean, or NaN if undefined
+     */
     public static double harmonicMean(double[] a) {
         double sumRec = 0.0;
         for (int i = 0; i < a.length; i++) {
@@ -629,7 +1030,14 @@ public class Group12 {
         return a.length / sumRec;
     }
 
-    
+    /**
+     * Calculates Manhattan distance (L1 norm) between two arrays.
+     * Formula: sum of absolute differences
+     * 
+     * @param arr1 first array
+     * @param arr2 second array
+     * @return the Manhattan distance
+     */
     public static double manhattanDistance(double[] arr1, double[] arr2) {
         double manhattan = 0.0;
         for (int i = 0; i < arr1.length; i++) {
@@ -638,6 +1046,14 @@ public class Group12 {
         return manhattan;
     }
 
+    /**
+     * Calculates Euclidean distance (L2 norm) between two arrays.
+     * Formula: square root of sum of squared differences
+     * 
+     * @param arr1 first array
+     * @param arr2 second array
+     * @return the Euclidean distance
+     */
     public static double euclideanDistance(double[] arr1, double[] arr2) {
         double euclidean = 0.0;
         for (int i = 0; i < arr1.length; i++) {
@@ -646,6 +1062,16 @@ public class Group12 {
         return Math.sqrt(euclidean);
     }
 
+    /**
+     * Calculates cosine similarity between two arrays.
+     * Formula: dot product divided by product of magnitudes
+     * Returns 0.0 if either array is a zero vector.
+     * Range: -1 to 1 (1 = identical direction, -1 = opposite direction)
+     * 
+     * @param arr1 first array
+     * @param arr2 second array
+     * @return the cosine similarity value
+     */
     public static double cosineSimilarity(double[] arr1, double[] arr2) {
         double dotProduct = 0.0;
         double sum1 = 0.0;
@@ -665,25 +1091,14 @@ public class Group12 {
         return dotProduct / (Math.sqrt(sum1) * Math.sqrt(sum2));
     }
 
-
-
-
-
-    // ===== University Submenu
-    // =============================================================================================
-        /**
-     * Connect Four Game
-     * -----------------
-     * Allows users to play Connect Four in:
-     *  - Single-player (vs computer)
-     *  - Two-player mode
+    // ===== UNIVERSITY SECTION =====
+    
+    /**
+     * Displays the University submenu and handles user selections.
+     * Currently offers Connect Four game.
      * 
-     * Features:
-     *  - Selectable board sizes (5x4, 6x5, or 7x6)
-     *  - Smart computer (blocks or wins strategically)
-     *  - Players can forfeit at any time by entering "Q"
+     * @param input Scanner object for reading user input
      */
-        // ===== UNIVERSITY MENU =====
     public static void University(Scanner input) {
         String choice;
         while (true) {
@@ -696,6 +1111,7 @@ public class Group12 {
 
             switch (choice) {
                 case "A":
+                    clearScreen();
                     System.out.println("Launching Connect Four...");
                     ConnectFour(input);
                     break;
@@ -708,6 +1124,22 @@ public class Group12 {
         }
     }
 
+    /**
+     * Connect Four Game implementation with AI opponent.
+     * 
+     * Game Features:
+     * - Multiple board sizes: 5x4, 6x5, or 7x6
+     * - Single-player mode (vs smart computer AI)
+     * - Two-player mode
+     * - Players can forfeit by entering 'Q'
+     * 
+     * Rules:
+     * - Players alternate dropping discs into columns
+     * - First to connect 4 discs horizontally, vertically, or diagonally wins
+     * - Game ends in draw if board is full
+     * 
+     * @param input Scanner object for reading user input
+     */
     public static void ConnectFour(Scanner input) {
         System.out.println("\n===== CONNECT FOUR =====");
         System.out.println("Select board size:");
@@ -718,8 +1150,13 @@ public class Group12 {
         int boardChoice = getValidInt(input, 1, 3);
 
         int rows = 4, cols = 5;
-        if (boardChoice == 2) { rows = 5; cols = 6; }
-        else if (boardChoice == 3) { rows = 6; cols = 7; }
+        if (boardChoice == 2) {
+            rows = 5;
+            cols = 6;
+        } else if (boardChoice == 3) {
+            rows = 6;
+            cols = 7;
+        }
 
         System.out.println("\nSelect Game Mode:");
         System.out.println("[1] Single Player (vs Computer)");
@@ -740,25 +1177,21 @@ public class Group12 {
 
             int col;
 
-            // === Player or Computer Move ===
             if (mode == 1 && currentPlayer == 'O') {
-                // Computer's turn
                 System.out.println("\nComputer is thinking...");
                 pauseFor(1000);
                 col = getSmartMove(board, 'O', 'X');
                 System.out.println("Computer chooses column: " + (col + 1));
                 pauseFor(800);
             } else {
-                // Human player's turn
                 System.out.println("Player " + currentPlayer + "'s turn. (Enter column number or 'Q' to forfeit)");
                 col = getPlayerMove(input, board);
-                if (col == -1) { // forfeit
+                if (col == -1) {
                     System.out.println("Player " + currentPlayer + " forfeited. Game Over!");
                     break;
                 }
             }
 
-            // Drop the disc in the selected column
             int row = dropDisc(board, col, currentPlayer);
             if (row == -1) {
                 System.out.println("Column is full! Try another one.");
@@ -766,7 +1199,6 @@ public class Group12 {
                 continue;
             }
 
-            // Check for win or draw
             if (checkWin(board, row, col, currentPlayer)) {
                 clearScreen();
                 displayBoard(board);
@@ -778,11 +1210,9 @@ public class Group12 {
                 System.out.println("It's a DRAW!");
                 gameOver = true;
             } else {
-                // Switch player
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             }
 
-            // Pause only after the game ends
             if (gameOver) {
                 pauseForInput(input);
             }
@@ -791,10 +1221,11 @@ public class Group12 {
         System.out.println("Returning to University Menu...");
     }
 
-/* ===== HELPER METHODS ===== */
-
     /**
-     * Wait for the user to press Enter before continuing.
+     * Pauses execution and waits for user to press Enter.
+     * Used to prevent screen from clearing immediately after game ends.
+     * 
+     * @param input Scanner object for reading user input
      */
     private static void pauseForInput(Scanner input) {
         System.out.print("\nPress Enter to continue...");
@@ -802,7 +1233,9 @@ public class Group12 {
     }
 
     /**
-     * Creates a short delay in milliseconds.
+     * Creates a pause in program execution for visual effect.
+     * 
+     * @param ms duration of pause in milliseconds
      */
     private static void pauseFor(int ms) {
         try {
@@ -813,14 +1246,20 @@ public class Group12 {
     }
 
     /**
-     * Validates that user input is an integer within a given range.
+     * Validates and reads an integer input within a specified range.
+     * Continues prompting until valid input is received.
+     * 
+     * @param input Scanner object for reading user input
+     * @param min minimum acceptable value (inclusive)
+     * @param max maximum acceptable value (inclusive)
+     * @return validated integer within range
      */
     private static int getValidInt(Scanner input, int min, int max) {
         int val;
         while (true) {
             if (input.hasNextInt()) {
                 val = input.nextInt();
-                input.nextLine(); // clear newline
+                input.nextLine();
                 if (val >= min && val <= max)
                     return val;
             } else {
@@ -828,10 +1267,13 @@ public class Group12 {
             }
             System.out.print("Invalid input, try again: ");
         }
-        }
+    }
 
     /**
-     * Displays the game board on the console.
+     * Displays the Connect Four game board with column numbers.
+     * Empty spaces shown as '.', player discs as 'X' or 'O'.
+     * 
+     * @param board 2D character array representing the game board
      */
     private static void displayBoard(char[][] board) {
         System.out.println();
@@ -848,8 +1290,13 @@ public class Group12 {
     }
 
     /**
-     * Drops a disc into the specified column.
-     * @return The row index where the disc landed, or -1 if the column is full.
+     * Drops a player's disc into the specified column.
+     * Disc falls to the lowest available position due to gravity.
+     * 
+     * @param board the game board
+     * @param col column index where disc is dropped
+     * @param player character representing the player ('X' or 'O')
+     * @return row index where disc landed, or -1 if column is full
      */
     private static int dropDisc(char[][] board, int col, char player) {
         for (int row = board.length - 1; row >= 0; row--) {
@@ -862,32 +1309,42 @@ public class Group12 {
     }
 
     /**
-     * Handles player input for choosing a column or forfeiting the game.
-     * @return Column index or -1 if player forfeits.
+     * Handles human player input for column selection or forfeit.
+     * Validates that chosen column is within valid range.
+     * 
+     * @param input Scanner object for reading user input
+     * @param board the game board (used to determine valid column range)
+     * @return column index (0-based), or -1 if player forfeits
      */
     private static int getPlayerMove(Scanner input, char[][] board) {
         while (true) {
             System.out.print("Choose a column (1-" + board[0].length + " or 'Q' to quit): ");
             String entry = input.nextLine().trim().toUpperCase();
             if (entry.equals("Q")) {
-                return -1; // forfeit
+                return -1;
             }
             try {
                 int col = Integer.parseInt(entry) - 1;
                 if (col >= 0 && col < board[0].length)
                     return col;
             } catch (NumberFormatException e) {
-                // Ignore invalid entry
             }
             System.out.println("Invalid input. Try again.");
         }
     }
 
     /**
-     * Smart AI move selection.
-     *  1. Win in the next move if possible
-     *  2. Block the opponent’s winning move
-     *  3. Otherwise, choose a random valid column
+     * AI strategy for selecting the best move in Connect Four.
+     * 
+     * Priority order:
+     * 1. Win immediately if possible
+     * 2. Block opponent's winning move
+     * 3. Choose random valid column
+     * 
+     * @param board the game board
+     * @param aiPlayer AI's character ('O')
+     * @param humanPlayer human player's character ('X')
+     * @return column index for AI's move
      */
     private static int getSmartMove(char[][] board, char aiPlayer, char humanPlayer) {
         List<Integer> validCols = new ArrayList<>();
@@ -896,7 +1353,6 @@ public class Group12 {
                 validCols.add(c);
         }
 
-        // Try to win
         for (int col : validCols) {
             int row = getDropRow(board, col);
             if (row != -1) {
@@ -908,7 +1364,6 @@ public class Group12 {
             }
         }
 
-        // Try to block opponent
         for (int col : validCols) {
             int row = getDropRow(board, col);
             if (row != -1) {
@@ -920,12 +1375,16 @@ public class Group12 {
             }
         }
 
-        // Otherwise, choose a random valid column
         return validCols.get((int) (Math.random() * validCols.size()));
     }
 
     /**
-     * Find the row index where a disc would land in a column.
+     * Determines which row a disc would land in if dropped in a column.
+     * Simulates gravity without modifying the board.
+     * 
+     * @param board the game board
+     * @param col column to check
+     * @return row index where disc would land, or -1 if column is full
      */
     private static int getDropRow(char[][] board, int col) {
         for (int row = board.length - 1; row >= 0; row--) {
@@ -936,25 +1395,35 @@ public class Group12 {
     }
 
     /**
-     * Check if the board is completely full.
+     * Checks if the game board is completely filled.
+     * 
+     * @param board the game board
+     * @return true if no empty spaces remain, false otherwise
      */
     private static boolean isBoardFull(char[][] board) {
         for (int c = 0; c < board[0].length; c++) {
             if (board[0][c] == '.')
-            return false;
+                return false;
         }
         return true;
     }
 
     /**
-     * Check if a player has connected four in any direction.
+     * Checks if the last move resulted in a win (4 connected discs).
+     * Examines all four directions: vertical, horizontal, and both diagonals.
+     * 
+     * @param board the game board
+     * @param row row of the last placed disc
+     * @param col column of the last placed disc
+     * @param player the player who made the move
+     * @return true if player has connected 4 discs, false otherwise
      */
     private static boolean checkWin(char[][] board, int row, int col, char player) {
         int[][] directions = {
-            {1, 0},  // vertical
-            {0, 1},  // horizontal
-            {1, 1},  // diagonal down-right
-            {1, -1}  // diagonal down-left
+                { 1, 0 },
+                { 0, 1 },
+                { 1, 1 },
+                { 1, -1 }
         };
 
         for (int[] dir : directions) {
@@ -968,7 +1437,16 @@ public class Group12 {
     }
 
     /**
-     * Count consecutive discs of the same player in one direction.
+     * Counts consecutive discs of the same player in a specific direction.
+     * Used by checkWin to determine if 4 discs are connected.
+     * 
+     * @param board the game board
+     * @param row starting row position
+     * @param col starting column position
+     * @param dr row direction increment (-1, 0, or 1)
+     * @param dc column direction increment (-1, 0, or 1)
+     * @param player the player character to count
+     * @return number of consecutive matching discs in the direction
      */
     private static int countDirection(char[][] board, int row, int col, int dr, int dc, char player) {
         int count = 0;
@@ -980,5 +1458,4 @@ public class Group12 {
         }
         return count;
     }
-
 }
