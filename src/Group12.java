@@ -590,33 +590,72 @@ public class Group12 {
             }
         }
     }
+    /**
+     * A helper method to check if a character is a mathematical operator.
+     * @param c The character to check.
+     * @return true if the character is one of +, -, *, x, or :, false otherwise.
+     */
+    private static boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == 'x' || c == ':';
+    }
 
     /**
      * Validates a mathematical expression for correct syntax and characters.
-     * Checks for balanced parentheses and valid operators.
+     * Checks for balanced parentheses, valid operators, and correct operator placement.
      * 
      * @param expression the expression to validate
      * @return true if expression is valid, false otherwise
      */
     private static boolean isValidExpression(String expression) {
-        for (char c : expression.toCharArray()) {
+        String expr = expression.replace(" ", ""); // Work with a clean string with no spaces
+        if (expr.isEmpty()) {
+            return false;
+        }
+
+        // 1. Character Check (your original check is good)
+        for (char c : expr.toCharArray()) {
             if (!Character.isDigit(c) && c != '+' && c != '-' && c != '*' && c != 'x' &&
-                    c != ':' && c != '(' && c != ')' && c != ' ') {
+                    c != ':' && c != '(' && c != ')') {
                 return false;
             }
         }
 
+        // 2. Parentheses Balance Check (your original check is good)
         int balance = 0;
-        for (char c : expression.toCharArray()) {
-            if (c == '(')
-                balance++;
-            else if (c == ')')
-                balance--;
-            if (balance < 0)
-                return false;
+        for (char c : expr.toCharArray()) {
+            if (c == '(') balance++;
+            else if (c == ')') balance--;
+            if (balance < 0) return false;
+        }
+        if (balance != 0) return false;
+
+        // 3. NEW: Syntax and Order Check
+        // Rule: Cannot start with a high-precedence operator or a plus sign
+        char firstChar = expr.charAt(0);
+        if (firstChar == '*' || firstChar == 'x' || firstChar == ':' || firstChar == '+') {
+            return false;
         }
 
-        return balance == 0;
+        // Rule: Cannot end with any operator
+        char lastChar = expr.charAt(expr.length() - 1);
+        if (isOperator(lastChar)) {
+            return false;
+        }
+
+        // Rule: No consecutive operators (e.g., "++", "*-", "*:")
+        for (int i = 0; i < expr.length() - 1; i++) {
+            char current = expr.charAt(i);
+            char next = expr.charAt(i + 1);
+            if (isOperator(current) && isOperator(next)) {
+                return false;
+            }
+            // Rule: No operator right after an opening parenthesis (e.g., "(*5)")
+            if (current == '(' && (next == '*' || next == 'x' || next == ':' || next == '+')) {
+                return false;
+            }
+        }
+
+        return true; // If all checks pass, the expression is valid
     }
 
     /**

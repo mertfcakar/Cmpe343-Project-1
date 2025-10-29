@@ -1,6 +1,7 @@
 # Ignore compiled Java class files
 bin/**/*.class
 src/**/*.class
+src/docs
 
 # Ignore library jars
 lib/**/*.jar
