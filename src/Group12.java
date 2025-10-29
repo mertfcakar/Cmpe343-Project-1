@@ -23,8 +23,7 @@ import java.util.Scanner;
  * @author Burak Arslan
  * @author Nermin Zehra Sipahioğlu
  * @author Hüseyin Yiğit Şahin
- * @version 1.0
- * @since 2025
+ * @version 1.1
  */
 public class Group12 {
 
@@ -125,19 +124,14 @@ public class Group12 {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
     // ===== PRIMARY SCHOOL SECTION =====
 
-    /**
-     * Displays the Primary School submenu and handles user selections.
-     * Available options:
-     * - Age and Zodiac Sign Detection
-     * - Reverse the Words
-     * - Return to Main Menu
-     * 
-     * @param input Scanner object for reading user input
-     */
-    // ===== PRIMARY SCHOOL SECTION =====
+    public static void printPrimarySchoolMenu() {
+        System.out.println("\n===== PRIMARY SCHOOL MENU =====\n");
+        System.out.println("[A] Age and Zodiac Sign Detection");
+        System.out.println("[B] Reverse the Words");
+        System.out.println("[C] Return to Main Menu");
+    }
 
     /**
      * Displays the Primary School submenu and handles user selections.
@@ -149,215 +143,277 @@ public class Group12 {
      * @param input Scanner object for reading user input
      */
     // ================= PRIMARY SCHOOL =================
-public static void PrimarySchool(Scanner input) {
-    String choice;
-    while (true) {
-        System.out.println("\n===== PRIMARY SCHOOL MENU =====\n");
-        System.out.println("[A] Age and Zodiac Sign Detection");
-        System.out.println("[B] Reverse the Words");
-        System.out.println("[C] Return to Main Menu");
-        System.out.print("\nEnter your choice (A-C): ");
+    public static void PrimarySchool(Scanner input) {
+        String choice;
+        printPrimarySchoolMenu();
 
-        choice = input.nextLine().toUpperCase();
+        while (true) {
+            System.out.print("\nEnter your choice (A-C): ");
 
-        switch (choice) {
-            case "A":
-                clearScreen();
-                System.out.println("Age and Zodiac Sign Detection selected");
-                AgeAndZodiac(input);   // <-- Scanner parametresi ile
-                break;
-            case "B":
-                clearScreen();
-                System.out.println("Reverse the Words selected");
-                ReverseWords(input);    // <-- Scanner parametresi ile
-                break;
-            case "C":
-                clearScreen();
-                System.out.println("Returning to Main Menu...");
-                return;
-            default:
-                System.out.println("Invalid choice, try again.");
+            choice = input.nextLine().toUpperCase();
+
+            switch (choice) {
+                case "A":
+                    clearScreen();
+                    System.out.println("Age and Zodiac Sign Detection selected");
+                    AgeAndZodiac(input);
+                    printPrimarySchoolMenu();
+                    break;
+                case "B":
+                    clearScreen();
+                    System.out.println("Reverse the Words selected");
+                    ReverseWords(input);
+                    printPrimarySchoolMenu();
+                    break;
+                case "C":
+                    clearScreen();
+                    System.out.println("Returning to Main Menu...");
+                    return;
+                default:
+                    System.out.println("Invalid choice, try again.");
+            }
         }
     }
-}
 
-/**
- * Calculates a person's age and determines their zodiac sign based on birth date.
- * Validates user input to ensure proper date format and logical values.
- * Current date is set to October 31, 2025 for calculations.
- *
- * Features:
- * - Precise age calculation (years, months, days)
- * - Leap year handling
- * - Date validation
- * - Zodiac sign determination
- */
-public static void AgeAndZodiac(Scanner input) {   // <-- Scanner parametresi eklendi
-    System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
+    /**
+     * Calculates a person's age and determines their zodiac sign based on birth
+     * date.
+     * Validates user input to ensure proper date format and logical values.
+     * Current date is set to October 31, 2025 for calculations.
+     *
+     * Features:
+     * - Precise age calculation (years, months, days)
+     * - Leap year handling
+     * - Date validation
+     * - Zodiac sign determination
+     */
+    public static void AgeAndZodiac(Scanner input) {
+        while (true) {
+            System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
 
-    int currentYear = 2025;
-    int currentMonth = 11;
-    int currentDay = 4;
+            int currentYear = 2025;
+            int currentMonth = 11;
+            int currentDay = 4;
 
-    int birthYear, birthMonth, birthDay;
+            int birthYear, birthMonth, birthDay;
 
-    while (true) {
-        try {
-            System.out.print("Enter your birth year: ");
-            birthYear = input.nextInt();
-            System.out.print("Enter your birth month (1-12): ");
-            birthMonth = input.nextInt();
-            System.out.print("Enter your birth day (1-31): ");
-            birthDay = input.nextInt();
-            input.nextLine(); // buffer temizliği
+            while (true) {
+                try {
+                    System.out.print("Enter your birth year: ");
+                    birthYear = input.nextInt();
+                    System.out.print("Enter your birth month (1-12): ");
+                    birthMonth = input.nextInt();
+                    System.out.print("Enter your birth day (1-31): ");
+                    birthDay = input.nextInt();
+                    input.nextLine();
 
-            if (!isValidDate(birthYear, birthMonth, birthDay)) {
-                System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
-                continue;
+                    if (!isValidDate(birthYear, birthMonth, birthDay)) {
+                        System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
+                        continue;
+                    }
+                    if (birthYear < 1900) {
+                        System.out.println("❌ Invalid input: Year must be 1900 or later. Try again!\n");
+                        continue;
+                    }
+                    if (birthYear > currentYear ||
+                            (birthYear == currentYear && birthMonth > currentMonth) ||
+                            (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
+                        System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
+                        continue;
+                    }
+                    break;
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
+                    input.nextLine();
+                }
             }
 
-            if (birthYear > currentYear ||
-                (birthYear == currentYear && birthMonth > currentMonth) ||
-                (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
-                System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
-                continue;
+            int ageYears = currentYear - birthYear;
+            int ageMonths = currentMonth - birthMonth;
+            int ageDays = currentDay - birthDay;
+
+            if (ageDays < 0) {
+                ageMonths--;
+                int daysInPrevMonth;
+                int prevMonth = currentMonth - 1;
+                if (prevMonth == 0)
+                    prevMonth = 12;
+
+                if (prevMonth == 2) {
+                    daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
+                } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
+                    daysInPrevMonth = 30;
+                } else {
+                    daysInPrevMonth = 31;
+                }
+                ageDays += daysInPrevMonth;
             }
-            break;
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
-            input.nextLine(); // clear buffer
+
+            if (ageMonths < 0) {
+                ageMonths += 12;
+                ageYears--;
+            }
+
+            String zodiac = "";
+            switch (birthMonth) {
+                case 1:
+                    zodiac = (birthDay >= 20) ? "Aquarius" : "Capricorn";
+                    break;
+                case 2:
+                    zodiac = (birthDay >= 19) ? "Pisces" : "Aquarius";
+                    break;
+                case 3:
+                    zodiac = (birthDay >= 21) ? "Aries" : "Pisces";
+                    break;
+                case 4:
+                    zodiac = (birthDay >= 20) ? "Taurus" : "Aries";
+                    break;
+                case 5:
+                    zodiac = (birthDay >= 21) ? "Gemini" : "Taurus";
+                    break;
+                case 6:
+                    zodiac = (birthDay >= 21) ? "Cancer" : "Gemini";
+                    break;
+                case 7:
+                    zodiac = (birthDay >= 23) ? "Leo" : "Cancer";
+                    break;
+                case 8:
+                    zodiac = (birthDay >= 23) ? "Virgo" : "Leo";
+                    break;
+                case 9:
+                    zodiac = (birthDay >= 23) ? "Libra" : "Virgo";
+                    break;
+                case 10:
+                    zodiac = (birthDay >= 23) ? "Scorpio" : "Libra";
+                    break;
+                case 11:
+                    zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";
+                    break;
+                case 12:
+                    zodiac = (birthDay >= 22) ? "Capricorn" : "Sagittarius";
+                    break;
+            }
+
+            System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
+            System.out.println("Your zodiac sign is: " + zodiac);
+
+            System.out.println("\n[A] Repeat with another date");
+            System.out.println("[B] Return to Primary School Menu");
+            while (true) {
+                System.out.print("Enter your choice (A-B): ");
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+                    clearScreen();
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
+            }
         }
     }
 
-    int ageYears = currentYear - birthYear;
-    int ageMonths = currentMonth - birthMonth;
-    int ageDays = currentDay - birthDay;
+    /**
+     * Prompts user for a sentence and reverses each word while preserving
+     * non-letter characters in their original positions.
+     * 
+     * @param input Scanner object for reading user input
+     */
+    public static void ReverseWords(Scanner input) {
+        while (true) {
+            System.out.println("\n=== REVERSE THE WORDS ===");
+            System.out.print("Enter a sentence: ");
+            String text = input.nextLine();
+            String result = reversePreserveNonLetters(text);
+            System.out.println("Reversed sentence: " + result);
 
-    if (ageDays < 0) {
-        ageMonths--;
-        int daysInPrevMonth;
-        int prevMonth = currentMonth - 1;
-        if (prevMonth == 0) prevMonth = 12;
+            System.out.println("\n[A] Reverse another sentence");
+            System.out.println("[B] Return to Primary School Menu");
 
-        if (prevMonth == 2) {
-            daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
-        } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
-            daysInPrevMonth = 30;
-        } else {
-            daysInPrevMonth = 31;
-        }
-        ageDays += daysInPrevMonth;
-    }
-
-    if (ageMonths < 0) {
-        ageMonths += 12;
-        ageYears--;
-    }
-
-    String zodiac = "";
-    switch (birthMonth) {
-        case 1:  zodiac = (birthDay >= 20) ? "Aquarius"    : "Capricorn";   break;
-        case 2:  zodiac = (birthDay >= 19) ? "Pisces"      : "Aquarius";    break;
-        case 3:  zodiac = (birthDay >= 21) ? "Aries"       : "Pisces";      break;
-        case 4:  zodiac = (birthDay >= 20) ? "Taurus"      : "Aries";       break;
-        case 5:  zodiac = (birthDay >= 21) ? "Gemini"      : "Taurus";      break;
-        case 6:  zodiac = (birthDay >= 21) ? "Cancer"      : "Gemini";      break;
-        case 7:  zodiac = (birthDay >= 23) ? "Leo"         : "Cancer";      break;
-        case 8:  zodiac = (birthDay >= 23) ? "Virgo"       : "Leo";         break;
-        case 9:  zodiac = (birthDay >= 23) ? "Libra"       : "Virgo";       break;
-        case 10: zodiac = (birthDay >= 23) ? "Scorpio"     : "Libra";       break;
-        case 11: zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";     break;
-        case 12: zodiac = (birthDay >= 22) ? "Capricorn"   : "Sagittarius"; break;
-    }
-
-    System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
-    System.out.println("Your zodiac sign is: " + zodiac);
-}
-
-/**
- * Prompts user for a sentence and reverses each word while preserving
- * non-letter characters in their original positions.
- * Uses recursive algorithm for word reversal.
- *
- * Example: "Hello, World!" becomes "olleH, dlroW!"
- */
-public static void ReverseWords(Scanner input) {   // <-- Scanner parametresi eklendi
-    System.out.println("\n=== REVERSE THE WORDS (RECURSIVE) ===");
-    System.out.print("Enter a sentence: ");
-    String text = input.nextLine();
-    String result = reversePreserveNonLetters(text);
-    System.out.println("Reversed sentence: " + result);
-}
-
-/**
- * Reverses each word in the input string while preserving positions of
- * non-letter characters.
- *
- * @param input the string to process
- * @return string with each word reversed, non-letters preserved
- */
-private static String reversePreserveNonLetters(String input) {
-    StringBuilder out = new StringBuilder();
-    int i = 0;
-    while (i < input.length()) {
-        char c = input.charAt(i);
-        if (Character.isLetter(c)) {
-            int j = i;
-            while (j < input.length() && Character.isLetter(input.charAt(j)))
-                j++;
-            String word = input.substring(i, j);
-            out.append(reverseRec(word));
-            i = j;
-        } else {
-            out.append(c);
-            i++;
+            while (true) {
+                System.out.print("Enter your choice (A-B): ");
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+                    clearScreen();
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
+            }
         }
     }
-    return out.toString();
-}
 
-/**
- * Recursively reverses a string.
- * Base case: strings of length 0 or 1 are returned as-is.
- *
- * @param s the string to reverse
- * @return the reversed string
- */
-private static String reverseRec(String s) {
-    if (s.length() <= 1)
-        return s;
-    return reverseRec(s.substring(1)) + s.charAt(0);
-}
-
-/**
- * Determines if a given year is a leap year.
- * A leap year is divisible by 4, but not by 100, unless also divisible by 400.
- */
-private static boolean isLeapYear(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-}
-
-/**
- * Validates a date by checking year, month, and day constraints.
- * Handles leap years and different month lengths.
- */
-private static boolean isValidDate(int year, int month, int day) {
-    if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31) {
-        return false;
-    }
-    if (month == 2) {
-        if (isLeapYear(year)) {
-            return day <= 29;
-        } else {
-            return day <= 28;
+    /**
+     * Reverses each word in the input string while preserving positions of
+     * non-letter characters.
+     *
+     * @param input the string to process
+     * @return string with each word reversed, non-letters preserved
+     */
+    private static String reversePreserveNonLetters(String input) {
+        StringBuilder out = new StringBuilder();
+        int i = 0;
+        while (i < input.length()) {
+            char c = input.charAt(i);
+            if (Character.isLetter(c)) {
+                int j = i;
+                while (j < input.length() && Character.isLetter(input.charAt(j)))
+                    j++;
+                String word = input.substring(i, j);
+                out.append(reverseRec(word));
+                i = j;
+            } else {
+                out.append(c);
+                i++;
+            }
         }
-    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-        return day <= 30;
+        return out.toString();
     }
-    return true;
-}
 
-     
+    /**
+     * Recursively reverses a string.
+     * Base case: strings of length 0 or 1 are returned as-is.
+     *
+     * @param s the string to reverse
+     * @return the reversed string
+     */
+    private static String reverseRec(String s) {
+        if (s.length() <= 1)
+            return s;
+        return reverseRec(s.substring(1)) + s.charAt(0);
+    }
+
+    /**
+     * Determines if a given year is a leap year.
+     * A leap year is divisible by 4, but not by 100, unless also divisible by 400.
+     */
+    private static boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    /**
+     * Validates a date by checking year, month, and day constraints.
+     * Handles leap years and different month lengths.
+     */
+    private static boolean isValidDate(int year, int month, int day) {
+        if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31) {
+            return false;
+        }
+        if (month == 2) {
+            if (isLeapYear(year)) {
+                return day <= 29;
+            } else {
+                return day <= 28;
+            }
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            return day <= 30;
+        }
+
+        return true;
+    }
 
     // ===== SECONDARY SCHOOL SECTION =====
     public static void printSecondarySchoolMenu() {
@@ -378,9 +434,10 @@ private static boolean isValidDate(int year, int month, int day) {
      */
     public static void SecondarySchool(Scanner input) {
         String choice;
-    
+        printSecondarySchoolMenu();
+
         while (true) {
-            printSecondarySchoolMenu();
+
             System.out.print("\nEnter your choice (A-C): ");
 
             choice = input.nextLine().toUpperCase();
@@ -438,25 +495,25 @@ private static boolean isValidDate(int year, int month, int day) {
                     input.nextLine();
                 }
             }
-    
+
             long startTime = System.nanoTime();
             List<Integer> primesEratosthenes = sieveOfEratosthenes(n);
             long endTime = System.nanoTime();
             System.out.println("\nSieve of Eratosthenes took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesEratosthenes);
-    
+
             startTime = System.nanoTime();
             List<Integer> primesSundaram = sieveOfSundaram(n);
             endTime = System.nanoTime();
             System.out.println("\nSieve of Sundaram took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesSundaram);
-    
+
             startTime = System.nanoTime();
             List<Integer> primesAtkin = sieveOfAtkin(n);
             endTime = System.nanoTime();
             System.out.println("\nSieve of Atkin took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesAtkin);
-    
+
             System.out.println("\n[A] Repeat with another number");
             System.out.println("[B] Return to Secondary School Menu");
             while (true) {
@@ -473,9 +530,6 @@ private static boolean isValidDate(int year, int month, int day) {
             }
         }
     }
-    
-    
-    
 
     /**
      * Displays the first 3 and last 2 prime numbers from a list.
@@ -614,7 +668,7 @@ private static boolean isValidDate(int year, int month, int day) {
             System.out.println("[B] Return to Secondary School Menu");
 
             while (true) {
-                
+
                 System.out.print("Enter your choice (A-B): ");
                 String next = input.nextLine().trim().toUpperCase();
                 if (next.equals("A")) {
@@ -810,6 +864,12 @@ private static boolean isValidDate(int year, int month, int day) {
     }
 
     // ===== HIGH SCHOOL SECTION =====
+    public static void printHighSchoolMenu() {
+        System.out.println("\n===== HIGH SCHOOL MENU =====\n");
+        System.out.println("[A] Statistical Information about an Array");
+        System.out.println("[B] Distance between Two Arrays");
+        System.out.println("[C] Return to Main Menu");
+    }
 
     /**
      * Displays the High School submenu and handles user selections.
@@ -822,11 +882,8 @@ private static boolean isValidDate(int year, int month, int day) {
      */
     public static void HighSchool(Scanner input) {
         String choice;
+        printHighSchoolMenu();
         while (true) {
-            System.out.println("\n===== HIGH SCHOOL MENU =====\n");
-            System.out.println("[A] Statistical Information about an Array");
-            System.out.println("[B] Distance between Two Arrays");
-            System.out.println("[C] Return to Main Menu");
             System.out.print("\nEnter your choice (A-C): ");
 
             choice = input.nextLine().toUpperCase();
@@ -836,11 +893,13 @@ private static boolean isValidDate(int year, int month, int day) {
                     clearScreen();
                     System.out.println("Statistical Information selected");
                     ArrayStatistics(input);
+                    printHighSchoolMenu();
                     break;
                 case "B":
                     clearScreen();
                     System.out.println("Distance between Two Arrays selected");
                     ArrayDistance(input);
+                    printHighSchoolMenu();
                     break;
                 case "C":
                     clearScreen();
@@ -905,13 +964,14 @@ private static boolean isValidDate(int year, int month, int day) {
             System.out.println("Geometric Mean  : " + geometricMean(arr));
             System.out.println("Harmonic Mean   : " + harmonicMeanRec(arr));
 
-            while (true) {
-                System.out.println("[A] Repeat with another array");
-                System.out.println("[B] Return to High School Menu");
-                System.out.print("Enter your choice (A-B): ");
+            System.out.println("\n[A] Repeat with another array");
+            System.out.println("[B] Return to High School Menu");
 
+            while (true) {
+                System.out.print("Enter your choice (A-B): ");
                 String next = input.nextLine().trim().toUpperCase();
                 if (next.equals("A")) {
+                    clearScreen();
                     break;
                 } else if (next.equals("B")) {
                     return;
@@ -919,6 +979,7 @@ private static boolean isValidDate(int year, int month, int day) {
                     System.out.println("Invalid choice, please enter A or B.");
                 }
             }
+
         }
     }
 
@@ -934,21 +995,22 @@ private static boolean isValidDate(int year, int month, int day) {
      */
     public static void ArrayDistance(Scanner input) {
         System.out.println("--- Array Distance ---");
-    
+
         int n;
         while (true) {
             System.out.print("Enter your first array's size: ");
             if (input.hasNextInt()) {
                 n = input.nextInt();
-                input.nextLine(); 
-                if (n > 0) break;
+                input.nextLine();
+                if (n > 0)
+                    break;
                 System.out.println("Array size must be positive. Try again.");
             } else {
-                input.next(); 
+                input.next();
                 System.out.println("Please enter a valid integer.");
             }
         }
-    
+
         double[] arr1 = new double[n];
         System.out.println("Enter " + n + " elements for the first array (integers between 0 and 9):");
         for (int i = 0; i < n; i++) {
@@ -956,26 +1018,26 @@ private static boolean isValidDate(int year, int month, int day) {
                 System.out.print("Element " + (i + 1) + ": ");
                 if (input.hasNextInt()) {
                     int num = input.nextInt();
-                    input.nextLine(); 
+                    input.nextLine();
                     if (0 <= num && num <= 9) {
-                        arr1[i] = num; 
+                        arr1[i] = num;
                         break;
                     } else {
                         System.out.println("Value must be an integer between 0 and 9. Please try again.");
                     }
                 } else {
-                    input.next(); 
+                    input.next();
                     System.out.println("Please enter an integer between 0 and 9.");
                 }
             }
         }
-    
+
         int k;
         while (true) {
             System.out.print("Enter your second array's size: ");
             if (input.hasNextInt()) {
                 k = input.nextInt();
-                input.nextLine(); 
+                input.nextLine();
                 if (k <= 0) {
                     System.out.println("Array size must be positive. Try again.");
                     continue;
@@ -986,11 +1048,11 @@ private static boolean isValidDate(int year, int month, int day) {
                 }
                 break;
             } else {
-                input.next(); 
+                input.next();
                 System.out.println("Please enter a valid integer.");
             }
         }
-    
+
         double[] arr2 = new double[n];
         System.out.println("Enter " + n + " elements for the second array (integers between 0 and 9):");
         for (int i = 0; i < n; i++) {
@@ -998,7 +1060,7 @@ private static boolean isValidDate(int year, int month, int day) {
                 System.out.print("Element " + (i + 1) + ": ");
                 if (input.hasNextInt()) {
                     int num = input.nextInt();
-                    input.nextLine(); 
+                    input.nextLine();
                     if (0 <= num && num <= 9) {
                         arr2[i] = num;
                         break;
@@ -1006,25 +1068,25 @@ private static boolean isValidDate(int year, int month, int day) {
                         System.out.println("Value must be an integer between 0 and 9. Please try again.");
                     }
                 } else {
-                    input.next(); 
+                    input.next();
                     System.out.println("Please enter an integer between 0 and 9.");
                 }
             }
         }
-    
+
         System.out.println("Distance Informations about your input array.");
         System.out.println("-------");
         System.out.println("Manhattan Distance: " + manhattanDistance(arr1, arr2));
         System.out.println("Euclidean Distance: " + euclideanDistance(arr1, arr2));
         System.out.println("Cosine Similarity: " + cosineSimilarity(arr1, arr2));
-    
+
+        System.out.println("[A] Repeat with another array");
+        System.out.println("[B] Return to High School Menu");
         while (true) {
-            System.out.println("[A] Repeat with another array");
-            System.out.println("[B] Return to High School Menu");
             System.out.print("Enter your choice (A-B): ");
-    
             String next = input.nextLine().trim().toUpperCase();
             if (next.equals("A")) {
+                clearScreen();
                 break;
             } else if (next.equals("B")) {
                 return;
@@ -1033,7 +1095,7 @@ private static boolean isValidDate(int year, int month, int day) {
             }
         }
     }
-    
+
     /**
      * Calculates the arithmetic mean (average) of an array.
      * Formula: sum of all elements divided by array length
@@ -1098,15 +1160,16 @@ private static boolean isValidDate(int year, int month, int day) {
     public static double harmonicMeanRec(double[] a) {
         return harmonicMeanRec(a, 0, 0.0);
     }
+
     private static double harmonicMeanRec(double[] a, int i, double sumRec) {
-        if (i == a.length) return a.length / sumRec;
+        if (i == a.length)
+            return a.length / sumRec;
         if (a[i] == 0.0) {
             System.out.println("Harmonic mean undefined when any element is zero.");
             return Double.NaN;
         }
-        return harmonicMeanRec(a, i+1, sumRec + 1.0/a[i]);
+        return harmonicMeanRec(a, i + 1, sumRec + 1.0 / a[i]);
     }
-    
 
     /**
      * Calculates Manhattan distance (L1 norm) between two arrays.
@@ -1170,6 +1233,11 @@ private static boolean isValidDate(int year, int month, int day) {
     }
 
     // ===== UNIVERSITY SECTION =====
+    public static void printUniversityMenu() {
+        System.out.println("\n===== UNIVERSITY MENU =====\n");
+        System.out.println("[A] Connect Four Game");
+        System.out.println("[B] Return to Main Menu");
+    }
 
     /**
      * Displays the University submenu and handles user selections.
@@ -1179,10 +1247,9 @@ private static boolean isValidDate(int year, int month, int day) {
      */
     public static void University(Scanner input) {
         String choice;
+        printUniversityMenu();
         while (true) {
-            System.out.println("\n===== UNIVERSITY MENU =====\n");
-            System.out.println("[A] Connect Four Game");
-            System.out.println("[B] Return to Main Menu");
+
             System.out.print("\nEnter your choice (A-B): ");
 
             choice = input.nextLine().toUpperCase();
@@ -1192,6 +1259,7 @@ private static boolean isValidDate(int year, int month, int day) {
                     clearScreen();
                     System.out.println("Launching Connect Four...");
                     ConnectFour(input);
+                    printUniversityMenu();
                     break;
                 case "B":
                     System.out.println("Returning to Main Menu...");
@@ -1227,13 +1295,13 @@ private static boolean isValidDate(int year, int month, int day) {
         System.out.print("Enter your choice (1-3): ");
         int boardChoice = getValidInt(input, 1, 3);
 
-        int rows = 5, cols = 4;
+        int rows = 4, cols = 5;
         if (boardChoice == 2) {
-            rows = 6;
-            cols = 5;
-        } else if (boardChoice == 3) {
-            rows = 7;
+            rows = 5;
             cols = 6;
+        } else if (boardChoice == 3) {
+            rows = 6;
+            cols = 7;
         }
 
         System.out.println("\nSelect Game Mode:");
@@ -1300,14 +1368,14 @@ private static boolean isValidDate(int year, int month, int day) {
             System.out.println("\n[A] Play again");
             System.out.println("[B] Return to University Menu");
             System.out.print("Enter your choice (A-B): ");
-    
+
             String next = input.nextLine().trim().toUpperCase();
             if (next.equals("A")) {
                 clearScreen();
-                ConnectFour(input); 
+                ConnectFour(input);
                 return;
             } else if (next.equals("B")) {
-                break; 
+                break;
             } else {
                 System.out.println("Invalid choice, please enter A or B.");
             }
