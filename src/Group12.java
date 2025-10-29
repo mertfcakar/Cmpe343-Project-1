@@ -137,249 +137,227 @@ public class Group12 {
      * 
      * @param input Scanner object for reading user input
      */
-    public static void PrimarySchool(Scanner input) {
-        String choice;
-        while (true) {
-            System.out.println("\n===== PRIMARY SCHOOL MENU =====\n");
-            System.out.println("[A] Age and Zodiac Sign Detection");
-            System.out.println("[B] Reverse the Words");
-            System.out.println("[C] Return to Main Menu");
-            System.out.print("\nEnter your choice (A-C): ");
+    // ===== PRIMARY SCHOOL SECTION =====
 
-            choice = input.nextLine().toUpperCase();
+    /**
+     * Displays the Primary School submenu and handles user selections.
+     * Available options:
+     * - Age and Zodiac Sign Detection
+     * - Reverse the Words
+     * - Return to Main Menu
+     * 
+     * @param input Scanner object for reading user input
+     */
+    // ================= PRIMARY SCHOOL =================
+public static void PrimarySchool(Scanner input) {
+    String choice;
+    while (true) {
+        System.out.println("\n===== PRIMARY SCHOOL MENU =====\n");
+        System.out.println("[A] Age and Zodiac Sign Detection");
+        System.out.println("[B] Reverse the Words");
+        System.out.println("[C] Return to Main Menu");
+        System.out.print("\nEnter your choice (A-C): ");
 
-            switch (choice) {
-                case "A":
-                    clearScreen();
-                    System.out.println("Age and Zodiac Sign Detection selected");
-                    AgeAndZodiac();
-                    break;
-                case "B":
-                    clearScreen();
-                    System.out.println("Reverse the Words selected");
-                    ReverseWords();
-                    break;
-                case "C":
-                    clearScreen();
-                    System.out.println("Returning to Main Menu...");
-                    return;
-                default:
-                    System.out.println("Invalid choice, try again.");
+        choice = input.nextLine().toUpperCase();
+
+        switch (choice) {
+            case "A":
+                clearScreen();
+                System.out.println("Age and Zodiac Sign Detection selected");
+                AgeAndZodiac(input);   // <-- Scanner parametresi ile
+                break;
+            case "B":
+                clearScreen();
+                System.out.println("Reverse the Words selected");
+                ReverseWords(input);    // <-- Scanner parametresi ile
+                break;
+            case "C":
+                clearScreen();
+                System.out.println("Returning to Main Menu...");
+                return;
+            default:
+                System.out.println("Invalid choice, try again.");
+        }
+    }
+}
+
+/**
+ * Calculates a person's age and determines their zodiac sign based on birth date.
+ * Validates user input to ensure proper date format and logical values.
+ * Current date is set to October 31, 2025 for calculations.
+ *
+ * Features:
+ * - Precise age calculation (years, months, days)
+ * - Leap year handling
+ * - Date validation
+ * - Zodiac sign determination
+ */
+public static void AgeAndZodiac(Scanner input) {   // <-- Scanner parametresi eklendi
+    System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
+
+    int currentYear = 2025;
+    int currentMonth = 11;
+    int currentDay = 4;
+
+    int birthYear, birthMonth, birthDay;
+
+    while (true) {
+        try {
+            System.out.print("Enter your birth year: ");
+            birthYear = input.nextInt();
+            System.out.print("Enter your birth month (1-12): ");
+            birthMonth = input.nextInt();
+            System.out.print("Enter your birth day (1-31): ");
+            birthDay = input.nextInt();
+            input.nextLine(); // buffer temizliği
+
+            if (!isValidDate(birthYear, birthMonth, birthDay)) {
+                System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
+                continue;
             }
-        }
-    }
 
-    /**
-     * Calculates a person's age and determines their zodiac sign based on birth
-     * date.
-     * Validates user input to ensure proper date format and logical values.
-     * Current date is set to October 31, 2025 for calculations.
-     * 
-     * Features:
-     * - Precise age calculation (years, months, days)
-     * - Leap year handling
-     * - Date validation
-     * - Zodiac sign determination
-     */
-    public static void AgeAndZodiac() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
-
-        int currentYear = 2025;
-        int currentMonth = 10;
-        int currentDay = 31;
-
-        int birthYear, birthMonth, birthDay;
-
-        while (true) {
-            try {
-                System.out.print("Enter your birth year: ");
-                birthYear = sc.nextInt();
-                System.out.print("Enter your birth month (1-12): ");
-                birthMonth = sc.nextInt();
-                System.out.print("Enter your birth day (1-31): ");
-                birthDay = sc.nextInt();
-                sc.nextLine();
-
-                if (!isValidDate(birthYear, birthMonth, birthDay)) {
-                    System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
-                    continue;
-                }
-
-                if (birthYear > currentYear ||
-                        (birthYear == currentYear && birthMonth > currentMonth) ||
-                        (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
-                    System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
-                    continue;
-                }
-                break;
-            } catch (java.util.InputMismatchException e) {
-                System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
-                sc.nextLine();
+            if (birthYear > currentYear ||
+                (birthYear == currentYear && birthMonth > currentMonth) ||
+                (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
+                System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
+                continue;
             }
+            break;
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
+            input.nextLine(); // clear buffer
         }
-
-        int ageYears = currentYear - birthYear;
-        int ageMonths = currentMonth - birthMonth;
-        int ageDays = currentDay - birthDay;
-
-        if (ageDays < 0) {
-            ageMonths--;
-            int daysInPrevMonth;
-            int prevMonth = currentMonth - 1;
-            if (prevMonth == 0)
-                prevMonth = 12;
-
-            if (prevMonth == 2) {
-                daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
-            } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
-                daysInPrevMonth = 30;
-            } else {
-                daysInPrevMonth = 31;
-            }
-            ageDays += daysInPrevMonth;
-        }
-
-        if (ageMonths < 0) {
-            ageMonths += 12;
-            ageYears--;
-        }
-
-        String zodiac = "";
-        switch (birthMonth) {
-            case 1:
-                zodiac = (birthDay >= 20) ? "Aquarius" : "Capricorn";
-                break;
-            case 2:
-                zodiac = (birthDay >= 19) ? "Pisces" : "Aquarius";
-                break;
-            case 3:
-                zodiac = (birthDay >= 21) ? "Aries" : "Pisces";
-                break;
-            case 4:
-                zodiac = (birthDay >= 20) ? "Taurus" : "Aries";
-                break;
-            case 5:
-                zodiac = (birthDay >= 21) ? "Gemini" : "Taurus";
-                break;
-            case 6:
-                zodiac = (birthDay >= 21) ? "Cancer" : "Gemini";
-                break;
-            case 7:
-                zodiac = (birthDay >= 23) ? "Leo" : "Cancer";
-                break;
-            case 8:
-                zodiac = (birthDay >= 23) ? "Virgo" : "Leo";
-                break;
-            case 9:
-                zodiac = (birthDay >= 23) ? "Libra" : "Virgo";
-                break;
-            case 10:
-                zodiac = (birthDay >= 23) ? "Scorpio" : "Libra";
-                break;
-            case 11:
-                zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";
-                break;
-            case 12:
-                zodiac = (birthDay >= 22) ? "Capricorn" : "Sagittarius";
-                break;
-        }
-
-        System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
-        System.out.println("Your zodiac sign is: " + zodiac);
     }
 
-    /**
-     * Determines if a given year is a leap year.
-     * A leap year is divisible by 4, but not by 100, unless also divisible by 400.
-     * 
-     * @param year the year to check
-     * @return true if the year is a leap year, false otherwise
-     */
-    private static boolean isLeapYear(int year) {
-        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    }
+    int ageYears = currentYear - birthYear;
+    int ageMonths = currentMonth - birthMonth;
+    int ageDays = currentDay - birthDay;
 
-    /**
-     * Validates a date by checking year, month, and day constraints.
-     * Handles leap years and different month lengths.
-     * 
-     * @param year  the year component
-     * @param month the month component (1-12)
-     * @param day   the day component (1-31)
-     * @return true if the date is valid, false otherwise
-     */
-    private static boolean isValidDate(int year, int month, int day) {
-        if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31) {
-            return false;
+    if (ageDays < 0) {
+        ageMonths--;
+        int daysInPrevMonth;
+        int prevMonth = currentMonth - 1;
+        if (prevMonth == 0) prevMonth = 12;
+
+        if (prevMonth == 2) {
+            daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
+        } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
+            daysInPrevMonth = 30;
+        } else {
+            daysInPrevMonth = 31;
         }
-        if (month == 2) {
-            if (isLeapYear(year)) {
-                return day <= 29;
-            } else {
-                return day <= 28;
-            }
-        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-            return day <= 30;
+        ageDays += daysInPrevMonth;
+    }
+
+    if (ageMonths < 0) {
+        ageMonths += 12;
+        ageYears--;
+    }
+
+    String zodiac = "";
+    switch (birthMonth) {
+        case 1:  zodiac = (birthDay >= 20) ? "Aquarius"    : "Capricorn";   break;
+        case 2:  zodiac = (birthDay >= 19) ? "Pisces"      : "Aquarius";    break;
+        case 3:  zodiac = (birthDay >= 21) ? "Aries"       : "Pisces";      break;
+        case 4:  zodiac = (birthDay >= 20) ? "Taurus"      : "Aries";       break;
+        case 5:  zodiac = (birthDay >= 21) ? "Gemini"      : "Taurus";      break;
+        case 6:  zodiac = (birthDay >= 21) ? "Cancer"      : "Gemini";      break;
+        case 7:  zodiac = (birthDay >= 23) ? "Leo"         : "Cancer";      break;
+        case 8:  zodiac = (birthDay >= 23) ? "Virgo"       : "Leo";         break;
+        case 9:  zodiac = (birthDay >= 23) ? "Libra"       : "Virgo";       break;
+        case 10: zodiac = (birthDay >= 23) ? "Scorpio"     : "Libra";       break;
+        case 11: zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";     break;
+        case 12: zodiac = (birthDay >= 22) ? "Capricorn"   : "Sagittarius"; break;
+    }
+
+    System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
+    System.out.println("Your zodiac sign is: " + zodiac);
+}
+
+/**
+ * Prompts user for a sentence and reverses each word while preserving
+ * non-letter characters in their original positions.
+ * Uses recursive algorithm for word reversal.
+ *
+ * Example: "Hello, World!" becomes "olleH, dlroW!"
+ */
+public static void ReverseWords(Scanner input) {   // <-- Scanner parametresi eklendi
+    System.out.println("\n=== REVERSE THE WORDS (RECURSIVE) ===");
+    System.out.print("Enter a sentence: ");
+    String text = input.nextLine();
+    String result = reversePreserveNonLetters(text);
+    System.out.println("Reversed sentence: " + result);
+}
+
+/**
+ * Reverses each word in the input string while preserving positions of
+ * non-letter characters.
+ *
+ * @param input the string to process
+ * @return string with each word reversed, non-letters preserved
+ */
+private static String reversePreserveNonLetters(String input) {
+    StringBuilder out = new StringBuilder();
+    int i = 0;
+    while (i < input.length()) {
+        char c = input.charAt(i);
+        if (Character.isLetter(c)) {
+            int j = i;
+            while (j < input.length() && Character.isLetter(input.charAt(j)))
+                j++;
+            String word = input.substring(i, j);
+            out.append(reverseRec(word));
+            i = j;
+        } else {
+            out.append(c);
+            i++;
         }
-        return true;
     }
+    return out.toString();
+}
 
-    /**
-     * Prompts user for a sentence and reverses each word while preserving
-     * non-letter characters in their original positions.
-     * Uses recursive algorithm for word reversal.
-     * 
-     * Example: "Hello, World!" becomes "olleH, dlroW!"
-     */
-    public static void ReverseWords() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\n=== REVERSE THE WORDS (RECURSIVE) ===");
-        System.out.print("Enter a sentence: ");
-        String text = sc.nextLine();
-        String result = reversePreserveNonLetters(text);
-        System.out.println("Reversed sentence: " + result);
+/**
+ * Recursively reverses a string.
+ * Base case: strings of length 0 or 1 are returned as-is.
+ *
+ * @param s the string to reverse
+ * @return the reversed string
+ */
+private static String reverseRec(String s) {
+    if (s.length() <= 1)
+        return s;
+    return reverseRec(s.substring(1)) + s.charAt(0);
+}
+
+/**
+ * Determines if a given year is a leap year.
+ * A leap year is divisible by 4, but not by 100, unless also divisible by 400.
+ */
+private static boolean isLeapYear(int year) {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+/**
+ * Validates a date by checking year, month, and day constraints.
+ * Handles leap years and different month lengths.
+ */
+private static boolean isValidDate(int year, int month, int day) {
+    if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31) {
+        return false;
     }
-
-    /**
-     * Reverses each word in the input string while preserving positions of
-     * non-letter characters.
-     * 
-     * @param input the string to process
-     * @return string with each word reversed, non-letters preserved
-     */
-    private static String reversePreserveNonLetters(String input) {
-        StringBuilder out = new StringBuilder();
-        int i = 0;
-        while (i < input.length()) {
-            char c = input.charAt(i);
-            if (Character.isLetter(c)) {
-                int j = i;
-                while (j < input.length() && Character.isLetter(input.charAt(j)))
-                    j++;
-                String word = input.substring(i, j);
-                out.append(reverseRec(word));
-                i = j;
-            } else {
-                out.append(c);
-                i++;
-            }
+    if (month == 2) {
+        if (isLeapYear(year)) {
+            return day <= 29;
+        } else {
+            return day <= 28;
         }
-        return out.toString();
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+        return day <= 30;
     }
+    return true;
+}
 
-    /**
-     * Recursively reverses a string.
-     * Base case: strings of length 0 or 1 are returned as-is.
-     * 
-     * @param s the string to reverse
-     * @return the reversed string
-     */
-    private static String reverseRec(String s) {
-        if (s.length() <= 1)
-            return s;
-        return reverseRec(s.substring(1)) + s.charAt(0);
-    }
+     
 
     // ===== SECONDARY SCHOOL SECTION =====
     public static void printSecondarySchoolMenu() {
@@ -400,9 +378,9 @@ public class Group12 {
      */
     public static void SecondarySchool(Scanner input) {
         String choice;
-        printSecondarySchoolMenu();
+    
         while (true) {
-
+            printSecondarySchoolMenu();
             System.out.print("\nEnter your choice (A-C): ");
 
             choice = input.nextLine().toUpperCase();
@@ -460,33 +438,31 @@ public class Group12 {
                     input.nextLine();
                 }
             }
-
+    
             long startTime = System.nanoTime();
             List<Integer> primesEratosthenes = sieveOfEratosthenes(n);
             long endTime = System.nanoTime();
             System.out.println("\nSieve of Eratosthenes took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesEratosthenes);
-
+    
             startTime = System.nanoTime();
             List<Integer> primesSundaram = sieveOfSundaram(n);
             endTime = System.nanoTime();
             System.out.println("\nSieve of Sundaram took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesSundaram);
-
+    
             startTime = System.nanoTime();
             List<Integer> primesAtkin = sieveOfAtkin(n);
             endTime = System.nanoTime();
             System.out.println("\nSieve of Atkin took " + (endTime - startTime) + " nanoseconds.");
             displayPrimes(primesAtkin);
-
+    
             System.out.println("\n[A] Repeat with another number");
             System.out.println("[B] Return to Secondary School Menu");
             while (true) {
-                
                 System.out.print("Enter your choice (A-B): ");
                 String next = input.nextLine().trim().toUpperCase();
                 if (next.equals("A")) {
-
                     clearScreen();
                     break;
                 } else if (next.equals("B")) {
@@ -497,6 +473,9 @@ public class Group12 {
             }
         }
     }
+    
+    
+    
 
     /**
      * Displays the first 3 and last 2 prime numbers from a list.
@@ -900,7 +879,7 @@ public class Group12 {
                     }
                     break;
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid integer (e.g., 5).");
+                    System.out.println("Please enter a valid integer.");
                 }
             }
 
@@ -924,7 +903,7 @@ public class Group12 {
             System.out.println("Arithmetic Mean : " + arithmeticMean(arr));
             System.out.println("Median          : " + median(arr));
             System.out.println("Geometric Mean  : " + geometricMean(arr));
-            System.out.println("Harmonic Mean   : " + harmonicMean(arr));
+            System.out.println("Harmonic Mean   : " + harmonicMeanRec(arr));
 
             while (true) {
                 System.out.println("[A] Repeat with another array");
@@ -955,53 +934,48 @@ public class Group12 {
      */
     public static void ArrayDistance(Scanner input) {
         System.out.println("--- Array Distance ---");
-
+    
         int n;
         while (true) {
             System.out.print("Enter your first array's size: ");
-            String s = input.nextLine().trim();
-            try {
-                n = Integer.parseInt(s);
-                if (n <= 0) {
-                    System.out.println("Array size must be positive. Try again.");
-                    continue;
-                }
-                break;
-            } catch (NumberFormatException e) {
+            if (input.hasNextInt()) {
+                n = input.nextInt();
+                input.nextLine(); 
+                if (n > 0) break;
+                System.out.println("Array size must be positive. Try again.");
+            } else {
+                input.next(); 
                 System.out.println("Please enter a valid integer.");
             }
         }
-
+    
         double[] arr1 = new double[n];
-        System.out.println("Enter " + n + " elements for the first array (between 0 and 9):");
-
+        System.out.println("Enter " + n + " elements for the first array (integers between 0 and 9):");
         for (int i = 0; i < n; i++) {
             while (true) {
                 System.out.print("Element " + (i + 1) + ": ");
-                String val = input.nextLine().trim();
-
-                try {
-                    double num = Double.parseDouble(val);
-
-                    if (num < 0 || num > 9) {
-                        System.out.println("Value must be between 0 and 9. Please try again.");
-                        continue;
+                if (input.hasNextInt()) {
+                    int num = input.nextInt();
+                    input.nextLine(); 
+                    if (0 <= num && num <= 9) {
+                        arr1[i] = num; 
+                        break;
+                    } else {
+                        System.out.println("Value must be an integer between 0 and 9. Please try again.");
                     }
-
-                    arr1[i] = num;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number.");
+                } else {
+                    input.next(); 
+                    System.out.println("Please enter an integer between 0 and 9.");
                 }
             }
         }
-
+    
         int k;
         while (true) {
             System.out.print("Enter your second array's size: ");
-            String s = input.nextLine().trim();
-            try {
-                k = Integer.parseInt(s);
+            if (input.hasNextInt()) {
+                k = input.nextInt();
+                input.nextLine(); 
                 if (k <= 0) {
                     System.out.println("Array size must be positive. Try again.");
                     continue;
@@ -1011,46 +985,44 @@ public class Group12 {
                     continue;
                 }
                 break;
-            } catch (NumberFormatException e) {
+            } else {
+                input.next(); 
                 System.out.println("Please enter a valid integer.");
             }
         }
-
+    
         double[] arr2 = new double[n];
-        System.out.println("Enter " + n + " elements for the second array (between 0 and 9):");
-
+        System.out.println("Enter " + n + " elements for the second array (integers between 0 and 9):");
         for (int i = 0; i < n; i++) {
             while (true) {
                 System.out.print("Element " + (i + 1) + ": ");
-                String val = input.nextLine().trim();
-
-                try {
-                    double num = Double.parseDouble(val);
-
-                    if (num < 0 || num > 9) {
-                        System.out.println("Value must be between 0 and 9. Please try again.");
-                        continue;
+                if (input.hasNextInt()) {
+                    int num = input.nextInt();
+                    input.nextLine(); 
+                    if (0 <= num && num <= 9) {
+                        arr2[i] = num;
+                        break;
+                    } else {
+                        System.out.println("Value must be an integer between 0 and 9. Please try again.");
                     }
-
-                    arr2[i] = num;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number (e.g., 3).");
+                } else {
+                    input.next(); 
+                    System.out.println("Please enter an integer between 0 and 9.");
                 }
             }
         }
-
+    
         System.out.println("Distance Informations about your input array.");
         System.out.println("-------");
         System.out.println("Manhattan Distance: " + manhattanDistance(arr1, arr2));
         System.out.println("Euclidean Distance: " + euclideanDistance(arr1, arr2));
         System.out.println("Cosine Similarity: " + cosineSimilarity(arr1, arr2));
-
+    
         while (true) {
             System.out.println("[A] Repeat with another array");
             System.out.println("[B] Return to High School Menu");
             System.out.print("Enter your choice (A-B): ");
-
+    
             String next = input.nextLine().trim().toUpperCase();
             if (next.equals("A")) {
                 break;
@@ -1061,7 +1033,7 @@ public class Group12 {
             }
         }
     }
-
+    
     /**
      * Calculates the arithmetic mean (average) of an array.
      * Formula: sum of all elements divided by array length
@@ -1123,17 +1095,18 @@ public class Group12 {
      * @param a the array of numbers
      * @return the harmonic mean, or NaN if undefined
      */
-    public static double harmonicMean(double[] a) {
-        double sumRec = 0.0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] == 0.0) {
-                System.out.println("Harmonic mean undefined when any element is zero.");
-                return Double.NaN;
-            }
-            sumRec = sumRec + (1.0 / a[i]);
-        }
-        return a.length / sumRec;
+    public static double harmonicMeanRec(double[] a) {
+        return harmonicMeanRec(a, 0, 0.0);
     }
+    private static double harmonicMeanRec(double[] a, int i, double sumRec) {
+        if (i == a.length) return a.length / sumRec;
+        if (a[i] == 0.0) {
+            System.out.println("Harmonic mean undefined when any element is zero.");
+            return Double.NaN;
+        }
+        return harmonicMeanRec(a, i+1, sumRec + 1.0/a[i]);
+    }
+    
 
     /**
      * Calculates Manhattan distance (L1 norm) between two arrays.
@@ -1254,13 +1227,13 @@ public class Group12 {
         System.out.print("Enter your choice (1-3): ");
         int boardChoice = getValidInt(input, 1, 3);
 
-        int rows = 4, cols = 5;
+        int rows = 5, cols = 4;
         if (boardChoice == 2) {
-            rows = 5;
-            cols = 6;
-        } else if (boardChoice == 3) {
             rows = 6;
-            cols = 7;
+            cols = 5;
+        } else if (boardChoice == 3) {
+            rows = 7;
+            cols = 6;
         }
 
         System.out.println("\nSelect Game Mode:");
@@ -1323,7 +1296,22 @@ public class Group12 {
             }
         }
 
-        System.out.println("Returning to University Menu...");
+        while (true) {
+            System.out.println("\n[A] Play again");
+            System.out.println("[B] Return to University Menu");
+            System.out.print("Enter your choice (A-B): ");
+    
+            String next = input.nextLine().trim().toUpperCase();
+            if (next.equals("A")) {
+                clearScreen();
+                ConnectFour(input); 
+                return;
+            } else if (next.equals("B")) {
+                break; 
+            } else {
+                System.out.println("Invalid choice, please enter A or B.");
+            }
+        }
     }
 
     /**
