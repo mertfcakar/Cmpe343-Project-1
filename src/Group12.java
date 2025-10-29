@@ -27,7 +27,16 @@ import java.util.Scanner;
  * @since 2025
  */
 public class Group12 {
-    
+
+    public static void printMainMenu() {
+        System.out.println("\n===== MAIN MENU =====\n");
+        System.out.println("[A] Primary School");
+        System.out.println("[B] Secondary School");
+        System.out.println("[C] High School");
+        System.out.println("[D] University");
+        System.out.println("[E] Terminate");
+    }
+
     /**
      * Main entry point of the application.
      * Displays welcome message and main menu, then processes user selections
@@ -39,14 +48,9 @@ public class Group12 {
         Scanner input = new Scanner(System.in);
         String choice;
         displayWelcomeMessage();
+        printMainMenu();
 
         while (true) {
-            System.out.println("\n===== MAIN MENU =====\n");
-            System.out.println("[A] Primary School");
-            System.out.println("[B] Secondary School");
-            System.out.println("[C] High School");
-            System.out.println("[D] University");
-            System.out.println("[E] Terminate");
             System.out.print("\nEnter your choice (A-E): ");
 
             choice = input.nextLine().toUpperCase();
@@ -56,21 +60,25 @@ public class Group12 {
                     System.out.println("You chose option A");
                     clearScreen();
                     PrimarySchool(input);
+                    printMainMenu();
                     break;
                 case "B":
                     System.out.println("You chose option B");
                     clearScreen();
                     SecondarySchool(input);
+                    printMainMenu();
                     break;
                 case "C":
                     System.out.println("You chose option C");
                     clearScreen();
                     HighSchool(input);
+                    printMainMenu();
                     break;
                 case "D":
                     System.out.println("You chose option D");
                     clearScreen();
                     University(input);
+                    printMainMenu();
                     break;
                 case "E":
                     System.out.println("You chose option E. Session Terminated");
@@ -81,7 +89,7 @@ public class Group12 {
             }
         }
     }
-    
+
     /**
      * Displays a styled welcome message with ASCII art and project information.
      * Uses ANSI color codes for enhanced visual presentation.
@@ -91,16 +99,21 @@ public class Group12 {
         String ANSI_PURPLE = "\u001B[35m";
         String ANSI_YELLOW = "\u001B[33m";
         String ANSI_CYAN = "\u001B[36m";
-        System.out.println(ANSI_PURPLE + "========================================================================" + ANSI_RESET);
+        System.out.println(
+                ANSI_PURPLE + "========================================================================" + ANSI_RESET);
         System.out.println(ANSI_PURPLE + "   ____ __  __ ____  _____ _____ _  _  _____ " + ANSI_RESET);
         System.out.println(ANSI_PURPLE + " / ___|  \\/  |  _ \\| ____|___ /| || ||___ / " + ANSI_RESET);
         System.out.println(ANSI_PURPLE + "| |   | |\\/| | |_) |  _|   |_ \\| || |_ |_ \\ " + ANSI_RESET);
         System.out.println(ANSI_PURPLE + "| |___| |  | |  __/| |___ ___) |__   _|__) |" + ANSI_RESET);
         System.out.println(ANSI_PURPLE + " \\____|_|  |_|_|   |_____|____/   |_||____/ " + ANSI_RESET);
         System.out.println();
-        System.out.println(ANSI_YELLOW + "            Welcome to the CMPE 343 Course Project!             " + ANSI_RESET);
-        System.out.println(ANSI_PURPLE + "========================================================================" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "      Project by: MERT FAHRİ ÇAKAR, BURAK ARSLAN, NERMİN ZEHRA SİPAHİOĞLU,HÜSEYİN YİĞİT ŞAHİN" + ANSI_RESET);
+        System.out
+                .println(ANSI_YELLOW + "            Welcome to the CMPE 343 Course Project!             " + ANSI_RESET);
+        System.out.println(
+                ANSI_PURPLE + "========================================================================" + ANSI_RESET);
+        System.out.println(ANSI_CYAN
+                + "      Project by: MERT FAHRİ ÇAKAR, BURAK ARSLAN, NERMİN ZEHRA SİPAHİOĞLU,HÜSEYİN YİĞİT ŞAHİN"
+                + ANSI_RESET);
         System.out.println();
     }
 
@@ -114,7 +127,7 @@ public class Group12 {
     }
 
     // ===== PRIMARY SCHOOL SECTION =====
-    
+
     /**
      * Displays the Primary School submenu and handles user selections.
      * Available options:
@@ -157,7 +170,8 @@ public class Group12 {
     }
 
     /**
-     * Calculates a person's age and determines their zodiac sign based on birth date.
+     * Calculates a person's age and determines their zodiac sign based on birth
+     * date.
      * Validates user input to ensure proper date format and logical values.
      * Current date is set to October 31, 2025 for calculations.
      * 
@@ -290,9 +304,9 @@ public class Group12 {
      * Validates a date by checking year, month, and day constraints.
      * Handles leap years and different month lengths.
      * 
-     * @param year the year component
+     * @param year  the year component
      * @param month the month component (1-12)
-     * @param day the day component (1-31)
+     * @param day   the day component (1-31)
      * @return true if the date is valid, false otherwise
      */
     private static boolean isValidDate(int year, int month, int day) {
@@ -368,7 +382,13 @@ public class Group12 {
     }
 
     // ===== SECONDARY SCHOOL SECTION =====
-    
+    public static void printSecondarySchoolMenu() {
+        System.out.println("\n===== SECONDARY SCHOOL MENU =====\n");
+        System.out.println("[A] Prime Numbers");
+        System.out.println("[B] Step-by-Step Expression Evaluation");
+        System.out.println("[C] Return to Main Menu");
+    }
+
     /**
      * Displays the Secondary School submenu and handles user selections.
      * Available options:
@@ -380,11 +400,9 @@ public class Group12 {
      */
     public static void SecondarySchool(Scanner input) {
         String choice;
+        printSecondarySchoolMenu();
         while (true) {
-            System.out.println("\n===== SECONDARY SCHOOL MENU =====\n");
-            System.out.println("[A] Prime Numbers");
-            System.out.println("[B] Step-by-Step Expression Evaluation");
-            System.out.println("[C] Return to Main Menu");
+
             System.out.print("\nEnter your choice (A-C): ");
 
             choice = input.nextLine().toUpperCase();
@@ -394,10 +412,13 @@ public class Group12 {
                     clearScreen();
                     System.out.println("Prime Numbers selected");
                     PrimeNumbers(input);
+                    printSecondarySchoolMenu();
                     break;
                 case "B":
+                    clearScreen();
                     System.out.println("Expression Evaluation selected");
                     ExpressionEvaluation(input);
+                    printSecondarySchoolMenu();
                     break;
                 case "C":
                     clearScreen();
@@ -415,47 +436,66 @@ public class Group12 {
      * - Sieve of Sundaram
      * - Sieve of Atkin
      * 
-     * Compares execution time and displays first 3 and last 2 primes for each method.
+     * Compares execution time and displays first 3 and last 2 primes for each
+     * method.
      * 
      * @param input Scanner object for reading user input
      */
     public static void PrimeNumbers(Scanner input) {
-        int n;
-
         while (true) {
-            System.out.println("Enter an integer bigger than 12: ");
-            if (input.hasNextInt()) {
-                n = input.nextInt();
-                if (n >= 12) {
-                    break;
+            int n;
+            while (true) {
+                System.out.println("Enter an integer bigger than or equal to 12: ");
+                if (input.hasNextInt()) {
+                    n = input.nextInt();
+                    input.nextLine();
+                    if (n >= 12) {
+                        break;
+                    } else {
+                        System.out.println("Please enter an integer bigger than or equal to 12: ");
+                    }
                 } else {
-                    System.out.println("Please enter an integer bigger than 12: ");
+                    System.out.println("Invalid Input, Please only enter an integer: ");
+                    input.next();
+                    input.nextLine();
                 }
-            } else {
-                System.out.println("Invalid Input,Please only enter an integer: ");
-                input.next();
+            }
+
+            long startTime = System.nanoTime();
+            List<Integer> primesEratosthenes = sieveOfEratosthenes(n);
+            long endTime = System.nanoTime();
+            System.out.println("\nSieve of Eratosthenes took " + (endTime - startTime) + " nanoseconds.");
+            displayPrimes(primesEratosthenes);
+
+            startTime = System.nanoTime();
+            List<Integer> primesSundaram = sieveOfSundaram(n);
+            endTime = System.nanoTime();
+            System.out.println("\nSieve of Sundaram took " + (endTime - startTime) + " nanoseconds.");
+            displayPrimes(primesSundaram);
+
+            startTime = System.nanoTime();
+            List<Integer> primesAtkin = sieveOfAtkin(n);
+            endTime = System.nanoTime();
+            System.out.println("\nSieve of Atkin took " + (endTime - startTime) + " nanoseconds.");
+            displayPrimes(primesAtkin);
+
+            System.out.println("\n[A] Repeat with another number");
+            System.out.println("[B] Return to Secondary School Menu");
+            while (true) {
+                
+                System.out.print("Enter your choice (A-B): ");
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+
+                    clearScreen();
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
             }
         }
-
-        long startTime = System.nanoTime();
-        List<Integer> primesEratosthenes = sieveOfEratosthenes(n);
-        long endTime = System.nanoTime();
-        System.out.println("\nSieve of Eratosthenes took " + (endTime - startTime) + " nanoseconds.");
-        displayPrimes(primesEratosthenes);
-
-        startTime = System.nanoTime();
-        List<Integer> primesSundaram = sieveOfSundaram(n);
-        endTime = System.nanoTime();
-        System.out.println("\nSieve of Sundaram took " + (endTime - startTime) + " nanoseconds.");
-        displayPrimes(primesSundaram);
-
-        startTime = System.nanoTime();
-        List<Integer> primesAtkin = sieveOfAtkin(n);
-        endTime = System.nanoTime();
-        System.out.println("\nSieve of Atkin took " + (endTime - startTime) + " nanoseconds.");
-        displayPrimes(primesAtkin);
-
-        input.nextLine();
     }
 
     /**
@@ -571,27 +611,48 @@ public class Group12 {
 
     /**
      * Evaluates a mathematical expression step-by-step, showing each calculation.
-     * Supports basic arithmetic operations: +, -, *, x (multiplication), : (division)
+     * Supports basic arithmetic operations: +, -, *, x (multiplication), :
+     * (division)
      * Handles parentheses and follows proper order of operations.
      * 
      * @param input Scanner object for reading user input
      */
     public static void ExpressionEvaluation(Scanner input) {
-        String expression;
         while (true) {
-            System.out.print("\nEnter a mathematical expression: ");
-            expression = input.nextLine();
-            if (isValidExpression(expression)) {
-                String cleanExpression = expression.replace(" ", "");
-                evaluateAndPrintStep(cleanExpression);
-                break;
-            } else {
-                System.out.println("please, re-enter a valid expression.");
+            String expression;
+            while (true) {
+                System.out.print("\nEnter a mathematical expression: ");
+                expression = input.nextLine();
+                if (isValidExpression(expression)) {
+                    String cleanExpression = expression.replace(" ", "");
+                    evaluateAndPrintStep(cleanExpression);
+                    break;
+                } else {
+                    System.out.println("please, re-enter a valid expression.");
+                }
+            }
+            System.out.println("\n[A] Evaluate another expression");
+            System.out.println("[B] Return to Secondary School Menu");
+
+            while (true) {
+                
+                System.out.print("Enter your choice (A-B): ");
+                String next = input.nextLine().trim().toUpperCase();
+                if (next.equals("A")) {
+                    clearScreen();
+                    break;
+                } else if (next.equals("B")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice, please enter A or B.");
+                }
             }
         }
     }
+
     /**
      * A helper method to check if a character is a mathematical operator.
+     * 
      * @param c The character to check.
      * @return true if the character is one of +, -, *, x, or :, false otherwise.
      */
@@ -601,7 +662,8 @@ public class Group12 {
 
     /**
      * Validates a mathematical expression for correct syntax and characters.
-     * Checks for balanced parentheses, valid operators, and correct operator placement.
+     * Checks for balanced parentheses, valid operators, and correct operator
+     * placement.
      * 
      * @param expression the expression to validate
      * @return true if expression is valid, false otherwise
@@ -623,11 +685,15 @@ public class Group12 {
         // 2. Parentheses Balance Check (your original check is good)
         int balance = 0;
         for (char c : expr.toCharArray()) {
-            if (c == '(') balance++;
-            else if (c == ')') balance--;
-            if (balance < 0) return false;
+            if (c == '(')
+                balance++;
+            else if (c == ')')
+                balance--;
+            if (balance < 0)
+                return false;
         }
-        if (balance != 0) return false;
+        if (balance != 0)
+            return false;
 
         // 3. NEW: Syntax and Order Check
         // Rule: Cannot start with a high-precedence operator or a plus sign
@@ -765,7 +831,7 @@ public class Group12 {
     }
 
     // ===== HIGH SCHOOL SECTION =====
-    
+
     /**
      * Displays the High School submenu and handles user selections.
      * Available options:
@@ -1131,7 +1197,7 @@ public class Group12 {
     }
 
     // ===== UNIVERSITY SECTION =====
-    
+
     /**
      * Displays the University submenu and handles user selections.
      * Currently offers Connect Four game.
@@ -1289,8 +1355,8 @@ public class Group12 {
      * Continues prompting until valid input is received.
      * 
      * @param input Scanner object for reading user input
-     * @param min minimum acceptable value (inclusive)
-     * @param max maximum acceptable value (inclusive)
+     * @param min   minimum acceptable value (inclusive)
+     * @param max   maximum acceptable value (inclusive)
      * @return validated integer within range
      */
     private static int getValidInt(Scanner input, int min, int max) {
@@ -1332,8 +1398,8 @@ public class Group12 {
      * Drops a player's disc into the specified column.
      * Disc falls to the lowest available position due to gravity.
      * 
-     * @param board the game board
-     * @param col column index where disc is dropped
+     * @param board  the game board
+     * @param col    column index where disc is dropped
      * @param player character representing the player ('X' or 'O')
      * @return row index where disc landed, or -1 if column is full
      */
@@ -1380,8 +1446,8 @@ public class Group12 {
      * 2. Block opponent's winning move
      * 3. Choose random valid column
      * 
-     * @param board the game board
-     * @param aiPlayer AI's character ('O')
+     * @param board       the game board
+     * @param aiPlayer    AI's character ('O')
      * @param humanPlayer human player's character ('X')
      * @return column index for AI's move
      */
@@ -1422,7 +1488,7 @@ public class Group12 {
      * Simulates gravity without modifying the board.
      * 
      * @param board the game board
-     * @param col column to check
+     * @param col   column to check
      * @return row index where disc would land, or -1 if column is full
      */
     private static int getDropRow(char[][] board, int col) {
@@ -1451,9 +1517,9 @@ public class Group12 {
      * Checks if the last move resulted in a win (4 connected discs).
      * Examines all four directions: vertical, horizontal, and both diagonals.
      * 
-     * @param board the game board
-     * @param row row of the last placed disc
-     * @param col column of the last placed disc
+     * @param board  the game board
+     * @param row    row of the last placed disc
+     * @param col    column of the last placed disc
      * @param player the player who made the move
      * @return true if player has connected 4 discs, false otherwise
      */
@@ -1479,11 +1545,11 @@ public class Group12 {
      * Counts consecutive discs of the same player in a specific direction.
      * Used by checkWin to determine if 4 discs are connected.
      * 
-     * @param board the game board
-     * @param row starting row position
-     * @param col starting column position
-     * @param dr row direction increment (-1, 0, or 1)
-     * @param dc column direction increment (-1, 0, or 1)
+     * @param board  the game board
+     * @param row    starting row position
+     * @param col    starting column position
+     * @param dr     row direction increment (-1, 0, or 1)
+     * @param dc     column direction increment (-1, 0, or 1)
      * @param player the player character to count
      * @return number of consecutive matching discs in the direction
      */
