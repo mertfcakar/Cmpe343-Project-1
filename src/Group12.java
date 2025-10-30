@@ -1327,8 +1327,9 @@ public class Group12 {
         System.out.println("[1] 5 x 4");
         System.out.println("[2] 6 x 5");
         System.out.println("[3] 7 x 6");
-        System.out.print("Enter your choice (1-3): ");
-        int boardChoice = getValidInt(input, 1, 3);
+        System.out.println("[4] Return to Previous Menu");
+        System.out.print("Enter your choice (1-4): ");
+        int boardChoice = getValidInt(input, 1, 4);
 
         int rows = 5, cols = 4;
         if (boardChoice == 2) {
@@ -1337,6 +1338,8 @@ public class Group12 {
         } else if (boardChoice == 3) {
             rows = 7;
             cols = 6;
+        }if (boardChoice == 4) {
+            return;
         }
 
         System.out.println("\nSelect Game Mode:");
