@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -176,143 +177,177 @@ public class Group12 {
     }
 
     /**
-     * Calculates a person's age and determines their zodiac sign based on birth
-     * date.
-     * Validates user input to ensure proper date format and logical values.
-     * Current date is set to October 31, 2025 for calculations.
-     *
-     * Features:
-     * - Precise age calculation (years, months, days)
-     * - Leap year handling
-     * - Date validation
-     * - Zodiac sign determination
-     */
+    * Calculates a person's age and determines their zodiac sign based on birth date.
+    * Validates user input to ensure proper date format and logical values.
+    * The current date (year, month, and day) is automatically obtained using the
+    * LocalDate.now() method, which retrieves the system’s local date values.
+    *
+    * Features:
+    * - Precise age calculation (years, months, days)
+    * - Leap year handling
+    * - Date validation
+    * - Zodiac sign determination
+    */
     public static void AgeAndZodiac(Scanner input) {
+    while (true) {
+        System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
+
+        
+        LocalDate now = LocalDate.now();
+        int currentYear = now.getYear();
+        int currentMonth = now.getMonthValue();
+        int currentDay = now.getDayOfMonth();
+        
+
+        int birthYear, birthMonth, birthDay;
+
         while (true) {
-            System.out.println("\n=== AGE AND ZODIAC SIGN DETECTION ===");
+            try {
+                System.out.print("Enter your birth year: ");
+                birthYear = input.nextInt();
 
-            int currentYear = 2025;
-            int currentMonth = 11;
-            int currentDay = 4;
-
-            int birthYear, birthMonth, birthDay;
-
-            while (true) {
-                try {
-                    System.out.print("Enter your birth year: ");
-                    birthYear = input.nextInt();
-                    System.out.print("Enter your birth month (1-12): ");
-                    birthMonth = input.nextInt();
-                    System.out.print("Enter your birth day (1-31): ");
-                    birthDay = input.nextInt();
-                    input.nextLine();
-
-                    if (!isValidDate(birthYear, birthMonth, birthDay)) {
-                        System.out.println("❌ Invalid date. Please enter a valid date. Try again!\n");
-                        continue;
-                    }
-                    if (birthYear < 1900) {
-                        System.out.println("❌ Invalid input: Year must be 1900 or later. Try again!\n");
-                        continue;
-                    }
-                    if (birthYear > currentYear ||
-                            (birthYear == currentYear && birthMonth > currentMonth) ||
-                            (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay)) {
-                        System.out.println("❌ Invalid input: Birth date cannot be in the future. Try again!\n");
-                        continue;
-                    }
-                    break;
-                } catch (java.util.InputMismatchException e) {
-                    System.out.println("❌ Invalid input: Please enter numbers only. Try again!\n");
-                    input.nextLine();
+                if (birthYear < 1900) {
+                    System.out.println("❌ Invalid input: Year must be 1900 or later. Try again!\n");
+                    continue;
                 }
-            }
-
-            int ageYears = currentYear - birthYear;
-            int ageMonths = currentMonth - birthMonth;
-            int ageDays = currentDay - birthDay;
-
-            if (ageDays < 0) {
-                ageMonths--;
-                int daysInPrevMonth;
-                int prevMonth = currentMonth - 1;
-                if (prevMonth == 0)
-                    prevMonth = 12;
-
-                if (prevMonth == 2) {
-                    daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
-                } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
-                    daysInPrevMonth = 30;
-                } else {
-                    daysInPrevMonth = 31;
+                if (birthYear > currentYear) {
+                    System.out.println("❌ Invalid input: Year cannot be in the future. Try again!\n");
+                    continue;
                 }
-                ageDays += daysInPrevMonth;
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("❌ Invalid input: Please enter a number for year.\n");
+                input.nextLine();
             }
+        }
 
-            if (ageMonths < 0) {
-                ageMonths += 12;
-                ageYears--;
-            }
+        while (true) {
+            try {
+                System.out.print("Enter your birth month (1-12): ");
+                birthMonth = input.nextInt();
 
-            String zodiac = "";
-            switch (birthMonth) {
-                case 1:
-                    zodiac = (birthDay >= 20) ? "Aquarius" : "Capricorn";
-                    break;
-                case 2:
-                    zodiac = (birthDay >= 19) ? "Pisces" : "Aquarius";
-                    break;
-                case 3:
-                    zodiac = (birthDay >= 21) ? "Aries" : "Pisces";
-                    break;
-                case 4:
-                    zodiac = (birthDay >= 20) ? "Taurus" : "Aries";
-                    break;
-                case 5:
-                    zodiac = (birthDay >= 21) ? "Gemini" : "Taurus";
-                    break;
-                case 6:
-                    zodiac = (birthDay >= 21) ? "Cancer" : "Gemini";
-                    break;
-                case 7:
-                    zodiac = (birthDay >= 23) ? "Leo" : "Cancer";
-                    break;
-                case 8:
-                    zodiac = (birthDay >= 23) ? "Virgo" : "Leo";
-                    break;
-                case 9:
-                    zodiac = (birthDay >= 23) ? "Libra" : "Virgo";
-                    break;
-                case 10:
-                    zodiac = (birthDay >= 23) ? "Scorpio" : "Libra";
-                    break;
-                case 11:
-                    zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";
-                    break;
-                case 12:
-                    zodiac = (birthDay >= 22) ? "Capricorn" : "Sagittarius";
-                    break;
-            }
-
-            System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
-            System.out.println("Your zodiac sign is: " + zodiac);
-
-            System.out.println("\n[A] Repeat with another date");
-            System.out.println("[B] Return to Primary School Menu");
-            while (true) {
-                System.out.print("Enter your choice (A-B): ");
-                String next = input.nextLine().trim().toUpperCase();
-                if (next.equals("A")) {
-                    clearScreen();
-                    break;
-                } else if (next.equals("B")) {
-                    return;
-                } else {
-                    System.out.println("Invalid choice, please enter A or B.");
+                if (birthMonth < 1 || birthMonth > 12) {
+                    System.out.println("❌ Invalid input: Month must be between 1 and 12. Try again!\n");
+                    continue;
                 }
+                if (birthYear == currentYear && birthMonth > currentMonth) {
+                    System.out.println("❌ Invalid input: Birth month cannot be in the future.\n");
+                    continue;
+                }
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("❌ Invalid input: Please enter a number for month.\n");
+                input.nextLine();
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Enter your birth day (1-31): ");
+                birthDay = input.nextInt();
+
+                if (!isValidDate(birthYear, birthMonth, birthDay)) {
+                    System.out.println("❌ Invalid date. Please enter a valid date.\n");
+                    continue;
+                }
+                if (birthYear == currentYear && birthMonth == currentMonth && birthDay > currentDay) {
+                    System.out.println("❌ Invalid input: Birth date cannot be in the future.\n");
+                    continue;
+                }
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("❌ Invalid input: Please enter a number for day.\n");
+                input.nextLine();
+            }
+        }
+        input.nextLine();
+
+        int ageYears = currentYear - birthYear;
+        int ageMonths = currentMonth - birthMonth;
+        int ageDays = currentDay - birthDay;
+
+        if (ageDays < 0) {
+            ageMonths--;
+            int daysInPrevMonth;
+            int prevMonth = currentMonth - 1;
+            if (prevMonth == 0)
+                prevMonth = 12;
+
+            if (prevMonth == 2) {
+                daysInPrevMonth = isLeapYear(currentYear) ? 29 : 28;
+            } else if (prevMonth == 4 || prevMonth == 6 || prevMonth == 9 || prevMonth == 11) {
+                daysInPrevMonth = 30;
+            } else {
+                daysInPrevMonth = 31;
+            }
+            ageDays += daysInPrevMonth;
+        }
+
+        if (ageMonths < 0) {
+            ageMonths += 12;
+            ageYears--;
+        }
+
+        String zodiac = "";
+        switch (birthMonth) {
+            case 1:
+                zodiac = (birthDay >= 20) ? "Aquarius" : "Capricorn";
+                break;
+            case 2:
+                zodiac = (birthDay >= 19) ? "Pisces" : "Aquarius";
+                break;
+            case 3:
+                zodiac = (birthDay >= 21) ? "Aries" : "Pisces";
+                break;
+            case 4:
+                zodiac = (birthDay >= 20) ? "Taurus" : "Aries";
+                break;
+            case 5:
+                zodiac = (birthDay >= 21) ? "Gemini" : "Taurus";
+                break;
+            case 6:
+                zodiac = (birthDay >= 21) ? "Cancer" : "Gemini";
+                break;
+            case 7:
+                zodiac = (birthDay >= 23) ? "Leo" : "Cancer";
+                break;
+            case 8:
+                zodiac = (birthDay >= 23) ? "Virgo" : "Leo";
+                break;
+            case 9:
+                zodiac = (birthDay >= 23) ? "Libra" : "Virgo";
+                break;
+            case 10:
+                zodiac = (birthDay >= 23) ? "Scorpio" : "Libra";
+                break;
+            case 11:
+                zodiac = (birthDay >= 22) ? "Sagittarius" : "Scorpio";
+                break;
+            case 12:
+                zodiac = (birthDay >= 22) ? "Capricorn" : "Sagittarius";
+                break;
+        }
+
+        System.out.printf("%nYou are %d years, %d months and %d days old.%n", ageYears, ageMonths, ageDays);
+        System.out.println("Your zodiac sign is: " + zodiac);
+
+        System.out.println("\n[A] Repeat with another date");
+        System.out.println("[B] Return to Primary School Menu");
+        while (true) {
+            System.out.print("Enter your choice (A-B): ");
+            String next = input.nextLine().trim().toUpperCase();
+            if (next.equals("A")) {
+                clearScreen();
+                break;
+            } else if (next.equals("B")) {
+                return;
+            } else {
+                System.out.println("Invalid choice, please enter A or B.");
             }
         }
     }
+}
+
 
     /**
      * Prompts user for a sentence and reverses each word while preserving
@@ -1295,13 +1330,13 @@ public class Group12 {
         System.out.print("Enter your choice (1-3): ");
         int boardChoice = getValidInt(input, 1, 3);
 
-        int rows = 4, cols = 5;
+        int rows = 5, cols = 4;
         if (boardChoice == 2) {
-            rows = 5;
-            cols = 6;
-        } else if (boardChoice == 3) {
             rows = 6;
-            cols = 7;
+            cols = 5;
+        } else if (boardChoice == 3) {
+            rows = 7;
+            cols = 6;
         }
 
         System.out.println("\nSelect Game Mode:");
